@@ -1,0 +1,32 @@
+from constants import Command
+from config import MESSAGES
+from utils import parse_input
+from handlers import execute_command
+from models import AddressBook, NoteBook
+from storage import save_data, load_data
+
+def main() -> None:
+    data = load_data()
+    if isinstance(data, tuple) and len(data) == 2:
+        book, notebook = data
+    else:
+        book, notebook = data, NoteBook()
+
+    print(MESSAGES["welcome"])
+
+    while True:
+        user_input = input("Enter a command: ")
+        command, args = parse_input(user_input)
+
+        if command in [Command.CLOSE.value, Command.EXIT.value]:
+            print(MESSAGES["goodbye"])
+            save_data(book, notebook)
+            break
+        elif command == "":
+            continue
+        
+        result = execute_command(command, args, book, notebook)
+        print(result)
+
+if __name__ == "__main__":
+    main()

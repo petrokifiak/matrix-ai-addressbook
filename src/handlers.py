@@ -1,0 +1,193 @@
+from decorators import input_error
+from constants import Command
+from config import ERRORS, MESSAGES
+from models import AddressBook, Record, NoteBook
+
+def get_record(book: AddressBook, name: str) -> Record:
+    """Допоміжна функція отримання запису або виклику KeyError."""
+    record = book.find(name)
+    if record is None:
+        raise KeyError
+    return record
+
+# region Приклад реалізації хендлера (Example)
+@input_error
+def add_contact(args: list[str], book: AddressBook) -> str:
+    """
+    Приклад готового хендлера додавання контакту.
+    Синтаксис: add <name> <phone>
+    """
+    name, phone = args[0], args[1]
+    record = book.find(name)
+    if record is None:
+        record = Record(name)
+        record.add_phone(phone)
+        book.add_record(record)
+    else:
+        record.add_phone(phone)
+    return MESSAGES["contact_added"]
+# endregion
+
+# region Contact Handlers (TODO: Реалізувати команді)
+@input_error
+def change_contact(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати зміну телефону
+    pass
+
+@input_error
+def delete_contact(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати видалення контакту
+    pass
+
+@input_error
+def search_contacts(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати пошук контактів
+    pass
+
+@input_error
+def show_phone(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати показ телефонів контакту
+    pass
+
+@input_error
+def add_phone(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати додавання телефону до існуючого контакту
+    pass
+
+@input_error
+def add_email(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати додавання email
+    pass
+
+@input_error
+def show_email(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати показ email
+    pass
+
+@input_error
+def add_address(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати додавання адреси
+    pass
+
+@input_error
+def show_address(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати показ адреси
+    pass
+
+@input_error
+def add_birthday(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати додавання дня народження
+    pass
+
+@input_error
+def show_birthday(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати показ дня народження
+    pass
+
+@input_error
+def birthdays(args: list[str], book: AddressBook) -> str:
+    # TODO: Реалізувати виведення найближчих днів народження
+    pass
+
+@input_error
+def show_all(book: AddressBook) -> str:
+    # TODO: Реалізувати виведення всіх збережених контактів
+    pass
+# endregion
+
+# region Note Handlers (TODO: Реалізувати команді)
+@input_error
+def add_note(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати додавання нотатки
+    pass
+
+@input_error
+def show_notes(notebook: NoteBook) -> str:
+    # TODO: Реалізувати показ усіх нотаток
+    pass
+
+@input_error
+def search_notes(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати пошук нотаток
+    pass
+
+@input_error
+def edit_note(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати редагування нотатки
+    pass
+
+@input_error
+def delete_note(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати видалення нотатки
+    pass
+
+@input_error
+def add_tag(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати додавання тегів до нотатки
+    pass
+
+@input_error
+def search_by_tag(args: list[str], notebook: NoteBook) -> str:
+    # TODO: Реалізувати пошук нотаток за тегом
+    pass
+
+@input_error
+def sort_notes(notebook: NoteBook) -> str:
+    # TODO: Реалізувати сортування нотаток за тегами
+    pass
+# endregion
+
+@input_error
+def execute_command(command: str, args: list[str], address_book: AddressBook, notebook: NoteBook | None = None) -> str:
+    """Маршрутизатор команд бота."""
+    if notebook is None:
+        notebook = NoteBook()
+
+    if command == Command.HELLO.value:
+        return MESSAGES["hello"]
+    elif command == Command.ADD.value:
+        return add_contact(args, address_book)
+    elif command == Command.CHANGE.value:
+        return change_contact(args, address_book)
+    elif command in [Command.DELETE.value, Command.DELETE_CONTACT.value]:
+        return delete_contact(args, address_book)
+    elif command in [Command.SEARCH_CONTACTS.value, "find-contact"]:
+        return search_contacts(args, address_book)
+    elif command == Command.PHONE.value:
+        return show_phone(args, address_book)
+    elif command == Command.ADD_PHONE.value:
+        return add_phone(args, address_book)
+    elif command == Command.ADD_EMAIL.value:
+        return add_email(args, address_book)
+    elif command == Command.SHOW_EMAIL.value:
+        return show_email(args, address_book)
+    elif command == Command.ADD_ADDRESS.value:
+        return add_address(args, address_book)
+    elif command == Command.SHOW_ADDRESS.value:
+        return show_address(args, address_book)
+    elif command == Command.ADD_BIRTHDAY.value:
+        return add_birthday(args, address_book)
+    elif command == Command.SHOW_BIRTHDAY.value:
+        return show_birthday(args, address_book)
+    elif command == Command.BIRTHDAYS.value:
+        return birthdays(args, address_book)
+    elif command == Command.ALL.value:
+        return show_all(address_book)
+    elif command == Command.ADD_NOTE.value:
+        return add_note(args, notebook)
+    elif command in [Command.SHOW_NOTES.value, Command.ALL_NOTES.value]:
+        return show_notes(notebook)
+    elif command == Command.SEARCH_NOTES.value:
+        return search_notes(args, notebook)
+    elif command == Command.EDIT_NOTE.value:
+        return edit_note(args, notebook)
+    elif command == Command.DELETE_NOTE.value:
+        return delete_note(args, notebook)
+    elif command == Command.ADD_TAG.value:
+        return add_tag(args, notebook)
+    elif command == Command.SEARCH_BY_TAG.value:
+        return search_by_tag(args, notebook)
+    elif command == Command.SORT_NOTES.value:
+        return sort_notes(notebook)
+    else:
+        raise ValueError(ERRORS["invalid_command"])

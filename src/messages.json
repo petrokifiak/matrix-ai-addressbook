@@ -1,0 +1,33 @@
+{
+  "errors": {
+    "invalid_command": "Enter a command:",
+    "missing_args": "Enter the argument for the command",
+    "contact_not_found": "Contact not found.",
+    "no_birthday": "Birthday is not set for this contact.",
+    "no_email": "Email is not set for this contact.",
+    "no_address": "Address is not set for this contact.",
+    "note_not_found": "Note not found.",
+    "invalid_days": "Days argument must be a positive integer."
+  },
+  "messages": {
+    "welcome": "Welcome to the assistant bot!",
+    "goodbye": "Good bye!",
+    "hello": "How can I help you?",
+    "contact_added": "Contact added.",
+    "contact_updated": "Contact updated.",
+    "contact_deleted": "Contact deleted.",
+    "no_contacts": "No contacts found.",
+    "no_matching_contacts": "No matching contacts found.",
+    "phone_added": "Phone added.",
+    "email_added": "Email added.",
+    "address_added": "Address added.",
+    "birthday_added": "Birthday added.",
+    "no_upcoming_birthdays": "No upcoming birthdays found.",
+    "note_added": "Note added.",
+    "note_updated": "Note updated.",
+    "note_deleted": "Note deleted.",
+    "tag_added": "Tag added to note.",
+    "no_notes": "No notes found.",
+    "no_matching_notes": "No matching notes found."
+  }
+}

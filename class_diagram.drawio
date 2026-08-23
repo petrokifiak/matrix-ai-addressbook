@@ -1,0 +1,130 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0">
+  <diagram id="class_diagram" name="Personal Assistant Class Diagram">
+    <mxGraphModel dx="1417" dy="784" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" background="#F8FAFC" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontColor=#1E293B;" value="&lt;b&gt;Personal Assistant — UML Class Diagram&lt;/b&gt;" vertex="1">
+          <mxGeometry height="40" width="450" x="500" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="userdict" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F1F5F9;strokeColor=#64748B;fontColor=#0F172A;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;collections.UserDict&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;UserDict&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ data: dict&lt;/p&gt;" vertex="1">
+          <mxGeometry height="60" width="220" x="610" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="addressbook" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#E0F2FE;strokeColor=#0284C7;fontColor=#0369A1;shadow=1;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AddressBook&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ data: dict[str, Record]&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ add_record(record: Record): void&lt;br&gt;+ find(name: str): Record | None&lt;br&gt;+ delete(name: str): bool&lt;br&gt;+ search(query: str): list[Record]&lt;br&gt;+ get_upcoming_birthdays(days: int = 7): list[dict]&lt;/p&gt;" vertex="1">
+          <mxGeometry height="130" width="300" x="380" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="notebook" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#FEF3C7;strokeColor=#D97706;fontColor=#92400E;shadow=1;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NoteBook&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ data: dict[int, Note]&lt;br&gt;- _next_id: int = 1&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ add_note(title: str, content: str, tags: list[str]): Note&lt;br&gt;+ find_note(identifier: str | int): Note | None&lt;br&gt;+ edit_note(identifier: str | int, new_content: str): bool&lt;br&gt;+ delete_note(identifier: str | int): bool&lt;br&gt;+ search_notes(query: str): list[Note]&lt;br&gt;+ search_by_tag(tag: str): list[Note]&lt;br&gt;+ sort_notes_by_tags(): list[Note]&lt;br&gt;+ all_notes(): list[Note]&lt;/p&gt;" vertex="1">
+          <mxGeometry height="190" width="340" x="780" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="record" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F0FDF4;strokeColor=#16A34A;fontColor=#166534;shadow=1;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Record&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;- _name: Name&lt;br&gt;- _phones: list[Phone]&lt;br&gt;- _birthday: Birthday | None&lt;br&gt;- _email: Email | None&lt;br&gt;- _address: Address | None&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ name: Name (prop)&lt;br&gt;+ phones: list[Phone] (prop)&lt;br&gt;+ birthday: Birthday | None (prop)&lt;br&gt;+ email: Email | None (prop)&lt;br&gt;+ address: Address | None (prop)&lt;br&gt;+ add_phone(phone: str): void&lt;br&gt;+ remove_phone(phone: str): void&lt;br&gt;+ edit_phone(old: str, new: str): void&lt;br&gt;+ find_phone(phone: str): Phone | None&lt;br&gt;+ add_birthday(birthday: str): void&lt;br&gt;+ set_email(email: str): void&lt;br&gt;+ remove_email(): void&lt;br&gt;+ set_address(address: str): void&lt;br&gt;+ remove_address(): void&lt;br&gt;+ matches(query: str): bool&lt;br&gt;+ __str__(): str&lt;/p&gt;" vertex="1">
+          <mxGeometry height="360" width="300" x="380" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="note" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#FFFBEB;strokeColor=#F59E0B;fontColor=#B45309;shadow=1;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Note&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ id: int&lt;br&gt;+ title: str&lt;br&gt;+ content: str&lt;br&gt;+ tags: list[Tag]&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ add_tag(tag: str): void&lt;br&gt;+ remove_tag(tag: str): bool&lt;br&gt;+ edit_title(new_title: str): void&lt;br&gt;+ edit_content(new_content: str): void&lt;br&gt;+ matches(query: str): bool&lt;br&gt;+ has_tag(tag: str): bool&lt;br&gt;+ __str__(): str&lt;/p&gt;" vertex="1">
+          <mxGeometry height="210" width="220" x="840" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="field" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=0;fillColor=#EEF2FF;strokeColor=#6366F1;fontColor=#4338CA;shadow=1;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Field&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: Any&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: Any)&lt;br&gt;+ __str__(): str&lt;/p&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="450" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="name" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Name&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: str&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="140" x="30" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="phone" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Phone&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: str (10 digits)&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="150" x="200" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="email" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Email&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ EMAIL_REGEX: str&lt;br&gt;+ value: str&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="80" width="150" x="380" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="address" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Address&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: str&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;/p&gt;" vertex="1">
+          <mxGeometry height="70" width="140" x="560" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="birthday" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Birthday&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: date&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;br&gt;+ __str__(): str&lt;/p&gt;" vertex="1">
+          <mxGeometry height="80" width="150" x="730" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="tag" parent="1" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Helvetica;html=1;rounded=0;fillColor=#F8FAFC;strokeColor=#94A3B8;fontColor=#334155;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Tag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ value: str&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ __init__(value: str)&lt;br&gt;+ __str__(): str&lt;br&gt;+ __eq__(other): bool&lt;/p&gt;" vertex="1">
+          <mxGeometry height="90" width="150" x="910" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_userdict_ab" edge="1" parent="1" source="addressbook" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=2;strokeColor=#64748B;" target="userdict">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="170" />
+              <mxPoint x="680" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_userdict_nb" edge="1" parent="1" source="notebook" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=2;strokeColor=#64748B;" target="userdict">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="950" y="170" />
+              <mxPoint x="760" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_ab_record" edge="1" parent="1" source="addressbook" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;endArrow=open;strokeWidth=2;strokeColor=#0284C7;fontColor=#0284C7;" target="record" value="1..*">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_nb_note" edge="1" parent="1" source="notebook" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;endArrow=open;strokeWidth=2;strokeColor=#D97706;fontColor=#D97706;" target="note" value="0..*">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_note_tag" edge="1" parent="1" source="note" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=diamondThin;startFill=1;endArrow=open;strokeWidth=2;strokeColor=#F59E0B;fontColor=#F59E0B;" target="tag" value="0..*">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="950" y="750" />
+              <mxPoint x="995" y="750" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_record_field" edge="1" parent="1" source="record" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=open;strokeWidth=1.5;strokeColor=#16A34A;fontColor=#16A34A;" target="field" value="has fields">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_field_name" edge="1" parent="1" source="name" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="100" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_field_phone" edge="1" parent="1" source="phone" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_field_email" edge="1" parent="1" source="email" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="455" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_field_address" edge="1" parent="1" source="address" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_field_birthday" edge="1" parent="1" source="birthday" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="805" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_field_tag" edge="1" parent="1" source="tag" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=0;strokeWidth=1.5;strokeColor=#6366F1;" target="field">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="985" y="960" />
+              <mxPoint x="530" y="960" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
