@@ -2,15 +2,10 @@ from constants import Command
 from config import MESSAGES
 from utils import parse_input
 from handlers import execute_command
-from models import AddressBook, NoteBook
 from storage import save_data, load_data
 
 def main() -> None:
-    data = load_data()
-    if isinstance(data, tuple) and len(data) == 2:
-        book, notebook = data
-    else:
-        book, notebook = data, NoteBook()
+    book, notebook = load_data()
 
     print(MESSAGES["welcome"])
 
