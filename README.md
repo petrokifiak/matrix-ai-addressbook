@@ -28,7 +28,6 @@ python src/main.py
 │   ├── utils.py                  # Функція parse_input для розбору введеного тексту
 │   └── messages.json             # Тексти успішних відповідей та помилок
 ├── class_diagram.drawio          # UML-діаграма класів (відкривати на diagrams.net)
-├── personal_assistant_project_plan.md # Детальний план завдань та оцінка складності
 ├── tasks.md                      # Спринт-таски за етапами розробки
 └── README.md                     # Опис проєкту та довідка з команд
 ```
