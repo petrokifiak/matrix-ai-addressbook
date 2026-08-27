@@ -7,7 +7,10 @@
     "no_email": "Email is not set for this contact.",
     "no_address": "Address is not set for this contact.",
     "note_not_found": "Note not found.",
-    "invalid_days": "Days argument must be a positive integer."
+    "invalid_days": "Days argument must be a positive integer.",
+    "invalid_phone": "Phone number must contain exactly 10 digits.",
+    "invalid_email": "Invalid email format. Example: user@example.com",
+    "invalid_birthday": "Invalid date format. Use DD.MM.YYYY"
   },
   "messages": {
     "welcome": "Welcome to the assistant bot!",

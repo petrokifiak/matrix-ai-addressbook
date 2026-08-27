@@ -30,3 +30,6 @@ class Command(Enum):
     EXIT = "exit"
 
 DATE_FORMAT = "%d.%m.%Y"
+PHONE_FORMAT = r"^\d{10}$"
+EMAIL_FORMAT = r"^[\w.+-]+@[\w-]+\.[\w.-]+$"
+
