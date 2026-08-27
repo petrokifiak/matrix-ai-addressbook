@@ -1,3 +1,4 @@
+import difflib
 from decorators import input_error
 from constants import Command
 from config import ERRORS, MESSAGES
@@ -222,4 +223,11 @@ def execute_command(command: str, args: list[str], address_book: AddressBook, no
     elif command == Command.SORT_NOTES_BY_TAGS.value:
         return sort_notes(notebook)
     else:
+        valid_commands = [cmd.value for cmd in Command]
+        matches = difflib.get_close_matches(command, valid_commands, n=3, cutoff=0.5)
+        if matches:
+            if len(matches) == 1:
+                return f"Invalid command '{command}'. Did you mean: {matches[0]}?"
+            suggestions = ", ".join(matches)
+            return f"Invalid command '{command}'. Did you mean one of these: {suggestions}?"
         raise ValueError(ERRORS["invalid_command"])
