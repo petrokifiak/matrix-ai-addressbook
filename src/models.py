@@ -1,4 +1,9 @@
+import re
 from collections import UserDict
+from datetime import datetime
+
+from config import ERRORS
+from constants import DATE_FORMAT, PHONE_FORMAT, EMAIL_FORMAT
 
 class Field:
     """Базовий клас для полів запису."""
@@ -17,13 +22,15 @@ class Name(Field):
 class Phone(Field):
     """Клас для зберігання номера телефону. Формат: 10 цифр."""
     def __init__(self, value):
-        # TODO: Реалізувати перевірку формату (10 цифр)
+        if not re.search(PHONE_FORMAT,value):
+            raise ValueError(ERRORS["invalid_phone"])
         super().__init__(value)
 
 class Email(Field):
     """Клас для зберігання електронної пошти."""
     def __init__(self, value):
-        # TODO: Реалізувати перевірку формату email через регулярні вирази
+        if not re.search(EMAIL_FORMAT,value):
+            raise ValueError(ERRORS["invalid_email"])
         super().__init__(value)
 
 class Address(Field):
@@ -35,8 +42,14 @@ class Address(Field):
 class Birthday(Field):
     """Клас для зберігання дня народження. Формат: DD.MM.YYYY."""
     def __init__(self, value):
-        # TODO: Реалізувати конвертацію у datetime.date та валідацію
-        super().__init__(value)
+        try:
+            birthday = datetime.strptime(value, DATE_FORMAT).date()
+        except ValueError:
+            raise ValueError(ERRORS["invalid_birthday"])
+        super().__init__(birthday)
+
+    def __str__(self):
+        return self.value.strftime(DATE_FORMAT)
 
 class Tag(Field):
     """Клас для тегів нотатки."""
