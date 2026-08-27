@@ -107,13 +107,19 @@ def add_note(args: list[str], notebook: NoteBook) -> str:
 
 @input_error
 def show_notes(notebook: NoteBook) -> str:
-    # TODO: Реалізувати показ усіх нотаток
-    pass
+    if not notebook.data:
+        return MESSAGES.get("no_notes", "No notes found.")
+    return "\n".join(str(note) for note in notebook.data.values())
 
 @input_error
 def search_notes(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати пошук нотаток
-    pass
+    query = " ".join(args)
+    if not query:
+        raise IndexError
+    results = notebook.search_notes(query)
+    if not results:
+        return MESSAGES["no_matching_notes"]
+    return "\n".join(str(note) for note in results)
 
 @input_error
 def edit_note(args: list[str], notebook: NoteBook) -> str:
@@ -128,8 +134,11 @@ def edit_note(args: list[str], notebook: NoteBook) -> str:
 
 @input_error
 def delete_note(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати видалення нотатки
-    pass
+    identifier = args[0]
+    success = notebook.delete_note(identifier)
+    if not success:
+        raise ValueError(ERRORS["note_not_found"])
+    return MESSAGES["note_deleted"]
 
 @input_error
 def add_tag(args: list[str], notebook: NoteBook) -> str:

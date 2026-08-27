@@ -80,5 +80,33 @@ class TestNoteBook(unittest.TestCase):
         success = self.notebook.edit_note(999, "New Content")
         self.assertFalse(success)
 
+    def test_delete_note_success(self):
+        note = self.notebook.add_note("ToDelete", "Content")
+        success = self.notebook.delete_note(note.id)
+        self.assertTrue(success)
+        self.assertNotIn(note.id, self.notebook.data)
+
+    def test_delete_note_not_found(self):
+        success = self.notebook.delete_note(999)
+        self.assertFalse(success)
+
+    def test_search_notes(self):
+        self.notebook.add_note("Apple", "Red fruit")
+        self.notebook.add_note("Banana", "Yellow fruit")
+        self.notebook.add_note("Car", "Fast vehicle")
+        
+        # Search by content
+        results = self.notebook.search_notes("fruit")
+        self.assertEqual(len(results), 2)
+        
+        # Search by title
+        results = self.notebook.search_notes("apple")
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].title, "Apple")
+        
+        # No match
+        results = self.notebook.search_notes("grape")
+        self.assertEqual(len(results), 0)
+
 if __name__ == "__main__":
     unittest.main()
