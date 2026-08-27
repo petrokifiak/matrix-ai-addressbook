@@ -5,7 +5,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
 
 from src.models import NoteBook
-from src.handlers import add_note, edit_note, delete_note, search_notes, show_notes
+from src.handlers import add_note, edit_note, delete_note, search_notes, show_notes, add_tag, search_by_tag, sort_notes
 from src.config import MESSAGES, ERRORS
 
 class TestNoteHandlers(unittest.TestCase):
@@ -95,6 +95,26 @@ class TestNoteHandlers(unittest.TestCase):
     def test_show_notes_empty(self):
         result = show_notes(self.notebook)
         self.assertEqual(result, MESSAGES["no_notes"])
+
+    def test_add_tag_success(self):
+        note = self.notebook.add_note("Apple", "Red")
+        args = [str(note.id), "fruit", "sweet"]
+        result = add_tag(args, self.notebook)
+        self.assertEqual(result, MESSAGES.get("tag_added", "Tags added."))
+        self.assertEqual(len(note.tags), 2)
+        self.assertEqual(note.tags[0].value, "fruit")
+
+    def test_search_by_tag_success(self):
+        self.notebook.add_note("Apple", "Red", ["fruit"])
+        args = ["fruit"]
+        result = search_by_tag(args, self.notebook)
+        self.assertIn("Apple", result)
+
+    def test_sort_notes_success(self):
+        self.notebook.add_note("Apple", "Red", ["fruit", "red"])
+        self.notebook.add_note("Banana", "Yellow", ["fruit"])
+        result = sort_notes(self.notebook)
+        self.assertTrue(result.index("Apple") < result.index("Banana"))
 
 if __name__ == "__main__":
     unittest.main()

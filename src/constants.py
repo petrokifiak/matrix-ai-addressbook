@@ -26,7 +26,7 @@ class Command(Enum):
     DELETE_NOTE = "delete-note"
     ADD_TAG = "add-tag"
     SEARCH_BY_TAG = "search-by-tag"
-    SORT_NOTES = "sort-notes"
+    SORT_NOTES_BY_TAGS = "sort-notes-by-tags"
     CLOSE = "close"
     EXIT = "exit"
 

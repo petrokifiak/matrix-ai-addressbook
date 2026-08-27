@@ -67,7 +67,7 @@ python src/main.py
 | `delete-note` | `[заголовок]` | Видалити нотатку за заголовком. |
 | `add-tag` | `[заголовок] [тег1] [тег2...]` | Додати один або декілька тегів до нотатки. |
 | `search-by-tag` | `[тег]` | Знайти всі нотатки за вказаним тегом. |
-| `sort-notes` | — | Сортувати нотатки за кількістю тегів (від більшої до меншої). |
+| `sort-notes-by-tags` | — | Сортувати нотатки за кількістю тегів (від більшої до меншої). |
 
 ### ⚙️ Системні команди
 
@@ -108,6 +108,7 @@ This will automatically find and run all tests to ensure the application works c
 
 Here are the essential Git commands used during development:
 
+- `git switch <branch-name>`: Switch to an existing branch.
 - `git switch -c <branch-name>`: Create and switch to a new branch (modern approach).
 - `git add .`: Stage all modified and new files for the next commit.
 - `git commit -m "commit message"`: Commit the staged changes with a descriptive message.
