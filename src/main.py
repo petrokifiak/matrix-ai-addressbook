@@ -1,27 +1,32 @@
-from constants import Command
+from constants import Command, Colors
 from config import MESSAGES
-from utils import parse_input
+from utils import parse_input, print_colored
 from handlers import execute_command
 from storage import save_data, load_data
 
 def main() -> None:
     book, notebook = load_data()
 
-    print(MESSAGES["welcome"])
+    print(f"{Colors.CYAN}{MESSAGES['welcome']}{Colors.RESET}")
 
     while True:
-        user_input = input("Enter a command: ")
-        command, args = parse_input(user_input)
+        try:
+            user_input = input(f"{Colors.YELLOW}Enter a command:{Colors.RESET} ")
+            command, args = parse_input(user_input)
 
-        if command in [Command.CLOSE.value, Command.EXIT.value]:
-            print(MESSAGES["goodbye"])
+            if command in [Command.CLOSE.value, Command.EXIT.value]:
+                print(f"{Colors.CYAN}{MESSAGES['goodbye']}{Colors.RESET}")
+                save_data(book, notebook)
+                break
+            elif command == "":
+                continue
+            
+            result = execute_command(command, args, book, notebook)
+            print_colored(result)
+        except (KeyboardInterrupt, EOFError):
+            print(f"\n{Colors.CYAN}{MESSAGES['goodbye']}{Colors.RESET}")
             save_data(book, notebook)
             break
-        elif command == "":
-            continue
-        
-        result = execute_command(command, args, book, notebook)
-        print(result)
 
 if __name__ == "__main__":
     main()

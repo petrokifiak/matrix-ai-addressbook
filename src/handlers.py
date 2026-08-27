@@ -3,9 +3,10 @@ from decorators import input_error
 from constants import Command
 from config import ERRORS, MESSAGES
 from models import AddressBook, Record, NoteBook
+from help import get_help
 
 def get_record(book: AddressBook, name: str) -> Record:
-    """Допоміжна функція отримання запису або виклику KeyError."""
+    """Helper function to get a record or raise KeyError."""
     record = book.find(name)
     if record is None:
         raise KeyError
@@ -15,8 +16,8 @@ def get_record(book: AddressBook, name: str) -> Record:
 @input_error
 def add_contact(args: list[str], book: AddressBook) -> str:
     """
-    Хендлер додавання контакту.
-    Синтаксис: add <name> <phone>
+    Handler for adding a contact.
+    Syntax: add <name> <phone>
     """
     name, phone = args[0], args[1]
     record = book.find(name)
@@ -30,67 +31,67 @@ def add_contact(args: list[str], book: AddressBook) -> str:
 
 @input_error
 def change_contact(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати зміну телефону
+    # TODO: Implement phone change
     pass
 
 @input_error
 def delete_contact(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати видалення контакту
+    # TODO: Implement contact deletion
     pass
 
 @input_error
 def search_contacts(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати пошук контактів
+    # TODO: Implement contact search
     pass
 
 @input_error
 def show_phone(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати показ телефонів контакту
+    # TODO: Implement showing contact phones
     pass
 
 @input_error
 def add_phone(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати додавання телефону до існуючого контакту
+    # TODO: Implement adding phone to existing contact
     pass
 
 @input_error
 def add_email(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати додавання email
+    # TODO: Implement adding email
     pass
 
 @input_error
 def show_email(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати показ email
+    # TODO: Implement showing email
     pass
 
 @input_error
 def add_address(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати додавання адреси
+    # TODO: Implement adding address
     pass
 
 @input_error
 def show_address(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати показ адреси
+    # TODO: Implement showing address
     pass
 
 @input_error
 def add_birthday(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати додавання дня народження
+    # TODO: Implement adding birthday
     pass
 
 @input_error
 def show_birthday(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати показ дня народження
+    # TODO: Implement showing birthday
     pass
 
 @input_error
 def birthdays(args: list[str], book: AddressBook) -> str:
-    # TODO: Реалізувати виведення найближчих днів народження
+    # TODO: Implement showing upcoming birthdays
     pass
 
 @input_error
 def show_all(book: AddressBook) -> str:
-    # TODO: Реалізувати виведення всіх збережених контактів
+    # TODO: Implement showing all saved contacts
     pass
 # endregion
 
@@ -172,12 +173,14 @@ def sort_notes(notebook: NoteBook) -> str:
 
 @input_error
 def execute_command(command: str, args: list[str], address_book: AddressBook, notebook: NoteBook | None = None) -> str:
-    """Маршрутизатор команд бота."""
+    """Bot command router."""
     if notebook is None:
         notebook = NoteBook()
 
     if command == Command.HELLO.value:
         return MESSAGES["hello"]
+    elif command == Command.HELP.value:
+        return get_help(args)
     elif command == Command.ADD.value:
         return add_contact(args, address_book)
     elif command == Command.CHANGE.value:

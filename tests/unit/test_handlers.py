@@ -290,5 +290,34 @@ class TestExecuteCommand(unittest.TestCase):
         result = execute_command("asdfghjkl", [], book, notebook)
         self.assertEqual(result, ERRORS["invalid_command"])
 
+    def test_help_general(self):
+        from src.handlers import execute_command
+        from src.models import AddressBook, NoteBook
+        book = AddressBook()
+        notebook = NoteBook()
+        result = execute_command("help", [], book, notebook)
+        self.assertIn("Available categories:", result)
+        self.assertIn("- Contacts", result)
+        self.assertIn("- Notes", result)
+
+    def test_help_specific_command(self):
+        from src.handlers import execute_command
+        from src.models import AddressBook, NoteBook
+        book = AddressBook()
+        notebook = NoteBook()
+        result = execute_command("help", ["add-note"], book, notebook)
+        self.assertIn("Command:", result)
+        self.assertIn("add-note", result)
+        self.assertIn("Creates a text note.", result)
+        self.assertIn("Syntax:", result)
+
+    def test_help_not_found(self):
+        from src.handlers import execute_command
+        from src.models import AddressBook, NoteBook
+        book = AddressBook()
+        notebook = NoteBook()
+        result = execute_command("help", ["some-fake-cmd"], book, notebook)
+        self.assertIn("not found", result)
+
 if __name__ == "__main__":
     unittest.main()
