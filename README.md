@@ -90,3 +90,29 @@ python src/main.py
 3. **Обробники команд (`src/handlers.py`):**
    * Заповніть тіла функцій-хендлерів з коментарями `TODO`.
    * Як зразок готового хендлера орієнтуйтеся на функцію `add_contact`.
+
+---
+
+## 🧪 How to run tests
+
+To run all unit tests for the project, simply open your terminal in the root directory and execute the following command:
+
+```bash
+python -m unittest discover -s tests/unit
+```
+This will automatically find and run all tests to ensure the application works correctly.
+
+---
+
+## 🌳 Basic Git Commands
+
+Here are the essential Git commands used during development:
+
+- `git switch -c <branch-name>`: Create and switch to a new branch (modern approach).
+- `git add .`: Stage all modified and new files for the next commit.
+- `git commit -m "commit message"`: Commit the staged changes with a descriptive message.
+- `git push origin <branch-name>`: Push your local branch to the remote repository.
+- `git fetch`: Download objects and refs from the remote repository (without merging them).
+- `git merge <branch-name>`: Merge the specified branch into your current branch.
+- `git pull`: Fetch and merge changes from the remote repository to your current branch.
+- `git status`: Show the current status of your working directory and staging area.

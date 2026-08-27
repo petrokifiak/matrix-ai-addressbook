@@ -12,6 +12,7 @@ class Command(Enum):
     DELETE_CONTACT = "delete-contact"
     DELETE = "delete"
     SEARCH_CONTACTS = "search-contacts"
+    FIND_CONTACTS = "find-contacts"
     ADD_EMAIL = "add-email"
     SHOW_EMAIL = "show-email"
     ADD_ADDRESS = "add-address"
