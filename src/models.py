@@ -220,9 +220,11 @@ class NoteBook(UserDict[int, Note]):
         ]
 
     def search_by_tag(self, tag: str) -> list[Note]:
-        # TODO: Пошук нотаток за тегом
-        return []
+        tag_clean = tag.lstrip("#").lower()
+        return [
+            note for note in self.data.values()
+            if any(t.value == tag_clean for t in note.tags)
+        ]
 
     def sort_notes_by_tags(self) -> list[Note]:
-        # TODO: Сортування нотаток за кількістю тегів
-        return []
+        return sorted(self.data.values(), key=lambda n: len(n.tags), reverse=True)

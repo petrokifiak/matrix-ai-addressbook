@@ -108,5 +108,30 @@ class TestNoteBook(unittest.TestCase):
         results = self.notebook.search_notes("grape")
         self.assertEqual(len(results), 0)
 
+    def test_search_by_tag(self):
+        note1 = self.notebook.add_note("Apple", "Red fruit", ["fruit", "red"])
+        note2 = self.notebook.add_note("Banana", "Yellow fruit", ["fruit"])
+        note3 = self.notebook.add_note("Car", "Fast vehicle", ["vehicle"])
+        
+        results = self.notebook.search_by_tag("fruit")
+        self.assertEqual(len(results), 2)
+        
+        results2 = self.notebook.search_by_tag("red")
+        self.assertEqual(len(results2), 1)
+        self.assertEqual(results2[0].id, note1.id)
+
+        results3 = self.notebook.search_by_tag("unknown")
+        self.assertEqual(len(results3), 0)
+
+    def test_sort_notes_by_tags(self):
+        note1 = self.notebook.add_note("A", "C", ["tag1"])
+        note2 = self.notebook.add_note("B", "C", ["tag1", "tag2", "tag3"])
+        note3 = self.notebook.add_note("C", "C")
+        
+        results = self.notebook.sort_notes_by_tags()
+        self.assertEqual(results[0].id, note2.id)
+        self.assertEqual(results[1].id, note1.id)
+        self.assertEqual(results[2].id, note3.id)
+
 if __name__ == "__main__":
     unittest.main()

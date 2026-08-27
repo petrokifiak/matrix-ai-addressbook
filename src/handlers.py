@@ -10,11 +10,11 @@ def get_record(book: AddressBook, name: str) -> Record:
         raise KeyError
     return record
 
-# region Приклад реалізації хендлера (Example)
+# region Contact Handlers
 @input_error
 def add_contact(args: list[str], book: AddressBook) -> str:
     """
-    Приклад готового хендлера додавання контакту.
+    Хендлер додавання контакту.
     Синтаксис: add <name> <phone>
     """
     name, phone = args[0], args[1]
@@ -26,9 +26,7 @@ def add_contact(args: list[str], book: AddressBook) -> str:
     else:
         record.add_phone(phone)
     return MESSAGES["contact_added"]
-# endregion
 
-# region Contact Handlers (TODO: Реалізувати команді)
 @input_error
 def change_contact(args: list[str], book: AddressBook) -> str:
     # TODO: Реалізувати зміну телефону
@@ -95,7 +93,7 @@ def show_all(book: AddressBook) -> str:
     pass
 # endregion
 
-# region Note Handlers (TODO: Реалізувати команді)
+# region Note Handler
 @input_error
 def add_note(args: list[str], notebook: NoteBook) -> str:
     title = args[0]
@@ -142,18 +140,33 @@ def delete_note(args: list[str], notebook: NoteBook) -> str:
 
 @input_error
 def add_tag(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати додавання тегів до нотатки
-    pass
+    if len(args) < 2:
+        raise IndexError
+    identifier = args[0]
+    tags = args[1:]
+    note = notebook.find_note(identifier)
+    if not note:
+        raise ValueError(ERRORS["note_not_found"])
+    for tag in tags:
+        note.add_tag(tag)
+    return MESSAGES.get("tag_added", "Tags added.")
 
 @input_error
 def search_by_tag(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати пошук нотаток за тегом
-    pass
+    if not args:
+        raise IndexError
+    tag = args[0]
+    results = notebook.search_by_tag(tag)
+    if not results:
+        return MESSAGES.get("no_matching_notes", "No notes found.")
+    return "\n".join(str(note) for note in results)
 
 @input_error
 def sort_notes(notebook: NoteBook) -> str:
-    # TODO: Реалізувати сортування нотаток за тегами
-    pass
+    results = notebook.sort_notes_by_tags()
+    if not results:
+        return MESSAGES.get("no_notes", "No notes found.")
+    return "\n".join(str(note) for note in results)
 # endregion
 
 @input_error
@@ -206,7 +219,7 @@ def execute_command(command: str, args: list[str], address_book: AddressBook, no
         return add_tag(args, notebook)
     elif command == Command.SEARCH_BY_TAG.value:
         return search_by_tag(args, notebook)
-    elif command == Command.SORT_NOTES.value:
+    elif command == Command.SORT_NOTES_BY_TAGS.value:
         return sort_notes(notebook)
     else:
         raise ValueError(ERRORS["invalid_command"])
