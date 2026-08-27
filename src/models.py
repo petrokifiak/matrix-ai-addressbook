@@ -201,13 +201,23 @@ class NoteBook(UserDict[int, Note]):
                 return note
         return None
 
-    def delete_note(self, title: str) -> bool:
-        # TODO: Видалити нотатку
+    def delete_note(self, identifier: str | int) -> bool:
+        note = self.find_note(identifier)
+        if note:
+            del self.data[note.id]
+            return True
         return False
 
     def search_notes(self, query: str) -> list[Note]:
-        # TODO: Пошук нотаток за підрядком у заголовку чи вмісті
-        return []
+        """
+        Searches for notes containing the query string in either the title or content.
+        The search is case-insensitive.
+        """
+        query_lower = query.lower()
+        return [
+            note for note in self.data.values() 
+            if query_lower in note.title.lower() or query_lower in note.content.lower()
+        ]
 
     def search_by_tag(self, tag: str) -> list[Note]:
         # TODO: Пошук нотаток за тегом
