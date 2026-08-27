@@ -98,8 +98,12 @@ def show_all(book: AddressBook) -> str:
 # region Note Handlers (TODO: Реалізувати команді)
 @input_error
 def add_note(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати додавання нотатки
-    pass
+    title = args[0]
+    content = " ".join(args[1:])
+    if not content:
+        raise IndexError
+    note = notebook.add_note(title, content)
+    return f"{MESSAGES['note_added']} ID: {note.id}"
 
 @input_error
 def show_notes(notebook: NoteBook) -> str:
@@ -113,8 +117,14 @@ def search_notes(args: list[str], notebook: NoteBook) -> str:
 
 @input_error
 def edit_note(args: list[str], notebook: NoteBook) -> str:
-    # TODO: Реалізувати редагування нотатки
-    pass
+    identifier = args[0]
+    new_content = " ".join(args[1:])
+    if not new_content:
+        raise IndexError
+    success = notebook.edit_note(identifier, new_content)
+    if not success:
+        raise ValueError(ERRORS["note_not_found"])
+    return MESSAGES["note_updated"]
 
 @input_error
 def delete_note(args: list[str], notebook: NoteBook) -> str:
@@ -151,7 +161,7 @@ def execute_command(command: str, args: list[str], address_book: AddressBook, no
         return change_contact(args, address_book)
     elif command in [Command.DELETE.value, Command.DELETE_CONTACT.value]:
         return delete_contact(args, address_book)
-    elif command in [Command.SEARCH_CONTACTS.value, "find-contact"]:
+    elif command in [Command.SEARCH_CONTACTS.value, Command.FIND_CONTACTS.value]:
         return search_contacts(args, address_book)
     elif command == Command.PHONE.value:
         return show_phone(args, address_book)
