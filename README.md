@@ -117,3 +117,44 @@ Here are the essential Git commands used during development:
 - `git merge <branch-name>`: Merge the specified branch into your current branch.
 - `git pull`: Fetch and merge changes from the remote repository to your current branch.
 - `git status`: Show the current status of your working directory and staging area.
+
+---
+
+## 🌟 Optional (Additional) Features
+
+This project includes several extra features that improve the User Experience (UX), which were not strictly required by the base technical requirements:
+
+1. **Interactive Help System**
+   - The `help` command outputs a convenient list of all commands, grouped by categories (Contacts, Notes, General).
+   - You can view help for a specific category or a detailed explanation of a single command.
+   - Example output:
+<pre><code style="background-color: #1e1e1e; padding: 10px; display: block; border-radius: 5px;">
+<span style="color: #dcdcaa;">Enter a command: help</span>
+<span style="color: #dcdcaa;">Available categories:</span>
+<span style="color: #4ec9b0;">- Contacts</span>
+<span style="color: #4ec9b0;">- Notes</span>
+<span style="color: #4ec9b0;">- General</span>
+
+<span style="color: #dcdcaa;">Type 'help &lt;category&gt;' to see commands in a category.</span>
+<span style="color: #dcdcaa;">Type 'help &lt;command&gt;' to see details for a specific command.</span>
+
+<span style="color: #dcdcaa;">Enter a command: help Contacts</span>
+<span style="color: #dcdcaa;">--- Contacts ---</span>
+<span style="color: #4ec9b0;">add                 </span> <span style="color: #d4d4d4;">: Adds a new contact.</span>
+<span style="color: #4ec9b0;">add-phone           </span> <span style="color: #d4d4d4;">: Adds another phone to a contact.</span>
+<span style="color: #d4d4d4;">...</span>
+<span style="color: #dcdcaa;">For details type: help &lt;command&gt;</span>
+</code></pre>
+
+2. **Fuzzy Matching (Smart Command Search)**
+   - If a user makes a typo when entering a command (e.g., `add-ntoe` instead of `add-note`), the bot automatically suggests correct options: *"Invalid command 'add-ntoe'. Did you mean: add-note?"*.
+
+3. **Colorized CLI (ANSI Colors)**
+   - The console interface is color-coded for better readability:
+     - 🔴 Errors and warnings are highlighted in red.
+     - 🟢 Successful actions are in green.
+     - 🟡 Input prompts and menus are in yellow/cyan.
+   - Implemented exclusively using the standard library (ANSI codes), with no third-party dependencies.
+
+4. **English Localization (100% English Codebase)**
+   - All internal comments, class documentation (docstrings), and TODOs are fully translated into English to adhere to best development practices.

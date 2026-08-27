@@ -6,7 +6,7 @@ from config import ERRORS
 from constants import DATE_FORMAT, PHONE_FORMAT, EMAIL_FORMAT
 
 class Field:
-    """Базовий клас для полів запису."""
+    """Base class for record fields."""
     def __init__(self, value):
         self.value = value
 
@@ -14,33 +14,33 @@ class Field:
         return str(self.value)
 
 class Name(Field):
-    """Клас для зберігання імені контакту. Обов'язкове поле."""
+    """Class for storing contact name. Required field."""
     def __init__(self, value):
-        # TODO: Реалізувати валідацію імені
+        # TODO: Implement name validation
         super().__init__(value)
 
 class Phone(Field):
-    """Клас для зберігання номера телефону. Формат: 10 цифр."""
+    """Class for storing phone number. Format: 10 digits."""
     def __init__(self, value):
         if not re.search(PHONE_FORMAT,value):
             raise ValueError(ERRORS["invalid_phone"])
         super().__init__(value)
 
 class Email(Field):
-    """Клас для зберігання електронної пошти."""
+    """Class for storing email."""
     def __init__(self, value):
         if not re.search(EMAIL_FORMAT,value):
             raise ValueError(ERRORS["invalid_email"])
         super().__init__(value)
 
 class Address(Field):
-    """Клас для зберігання фізичної адреси контакту."""
+    """Class for storing contact physical address."""
     def __init__(self, value):
-        # TODO: Реалізувати збереження адреси
+        # TODO: Implement saving address
         super().__init__(value)
 
 class Birthday(Field):
-    """Клас для зберігання дня народження. Формат: DD.MM.YYYY."""
+    """Class for storing birthday. Format: DD.MM.YYYY."""
     def __init__(self, value):
         try:
             birthday = datetime.strptime(value, DATE_FORMAT).date()
@@ -52,13 +52,13 @@ class Birthday(Field):
         return self.value.strftime(DATE_FORMAT)
 
 class Tag(Field):
-    """Клас для тегів нотатки."""
+    """Class for note tags."""
     def __init__(self, value):
-        # TODO: Реалізувати збереження тегу (очищення від #, lowercase)
+        # TODO: Implement saving tag (remove #, lowercase)
         super().__init__(value)
 
 class Record:
-    """Клас для зберігання інформації про контакт (ім'я, телефони, email, адреса, день народження)."""
+    """Class for storing contact info (name, phones, email, address, birthday)."""
     def __init__(self, name: str):
         self.name = Name(name)
         self.phones: list[Phone] = []
@@ -67,31 +67,31 @@ class Record:
         self.birthday: Birthday | None = None
 
     def add_phone(self, phone: str) -> None:
-        # TODO: Реалізувати додавання телефону
+        # TODO: Implement adding phone
         pass
 
     def edit_phone(self, old_phone: str, new_phone: str) -> None:
-        # TODO: Реалізувати редагування телефону
+        # TODO: Implement editing phone
         pass
 
     def find_phone(self, phone: str) -> Phone | None:
-        # TODO: Реалізувати пошук телефону
+        # TODO: Implement finding phone
         pass
 
     def remove_phone(self, phone: str) -> None:
-        # TODO: Реалізувати видалення телефону
+        # TODO: Implement deleting phone
         pass
 
     def add_email(self, email: str) -> None:
-        # TODO: Реалізувати додавання email
+        # TODO: Implement adding email
         pass
 
     def add_address(self, address: str) -> None:
-        # TODO: Реалізувати додавання адреси
+        # TODO: Implement adding address
         pass
 
     def add_birthday(self, birthday: str) -> None:
-        # TODO: Реалізувати встановлення дня народження
+        # TODO: Implement setting birthday
         pass
 
     def __str__(self):
@@ -102,26 +102,26 @@ class Record:
         return f"Contact name: {self.name.value}, phones: {phones_str}, emails: {emails_str}, addresses: {addresses_str}, birthday: {birthday_str}"
 
 class AddressBook(UserDict):
-    """Клас для управління контактами (база даних контактів)."""
+    """Class for managing contacts (contacts database)."""
     def add_record(self, record: Record) -> None:
-        # TODO: Додати запис у self.data за ключем імені
+        # TODO: Add record to self.data with name as key
         self.data[record.name.value] = record
 
     def find(self, name: str) -> Record | None:
-        # TODO: Пошук контакту за ім'ям
+        # TODO: Search contact by name
         return self.data.get(name)
 
     def delete(self, name: str) -> None:
-        # TODO: Видалення контакту за ім'ям
+        # TODO: Delete contact by name
         if name in self.data:
             del self.data[name]
 
     def search(self, query: str) -> list[Record]:
-        # TODO: Пошук контактів за підрядком query
+        # TODO: Search contacts by query substring
         return []
 
     def get_upcoming_birthdays(self, days: int = 7) -> list[dict]:
-        # TODO: Реалізувати список іменинників на наступні N днів
+        # TODO: Implement list of birthdays for next N days
         return []
 
 class Note:
