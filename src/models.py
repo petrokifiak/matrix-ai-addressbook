@@ -1,6 +1,6 @@
 import re
 from collections import UserDict
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 from config import ERRORS
 from constants import DATE_FORMAT, PHONE_FORMAT, EMAIL_FORMAT
@@ -16,34 +16,38 @@ class Field:
 class Name(Field):
     """Class for storing contact name. Required field."""
     def __init__(self, value):
-        # TODO: Implement name validation
-        super().__init__(value)
+        if not value or not str(value).strip():
+            raise ValueError("Name cannot be empty")
+        super().__init__(str(value).strip())
 
 class Phone(Field):
     """Class for storing phone number. Format: 10 digits."""
     def __init__(self, value):
-        if not re.search(PHONE_FORMAT,value):
+        clean_value = str(value).strip()
+        if not re.search(PHONE_FORMAT, clean_value):
             raise ValueError(ERRORS["invalid_phone"])
-        super().__init__(value)
+        super().__init__(clean_value)
 
 class Email(Field):
     """Class for storing email."""
     def __init__(self, value):
-        if not re.search(EMAIL_FORMAT,value):
+        clean_value = str(value).strip()
+        if not re.search(EMAIL_FORMAT, clean_value):
             raise ValueError(ERRORS["invalid_email"])
-        super().__init__(value)
+        super().__init__(clean_value)
 
 class Address(Field):
     """Class for storing contact physical address."""
     def __init__(self, value):
-        # TODO: Implement saving address
-        super().__init__(value)
+        if not value or not str(value).strip():
+            raise ValueError("Address cannot be empty")
+        super().__init__(str(value).strip())
 
 class Birthday(Field):
     """Class for storing birthday. Format: DD.MM.YYYY."""
     def __init__(self, value):
         try:
-            birthday = datetime.strptime(value, DATE_FORMAT).date()
+            birthday = datetime.strptime(str(value).strip(), DATE_FORMAT).date()
         except ValueError:
             raise ValueError(ERRORS["invalid_birthday"])
         super().__init__(birthday)
@@ -54,8 +58,10 @@ class Birthday(Field):
 class Tag(Field):
     """Class for note tags."""
     def __init__(self, value):
-        # TODO: Implement saving tag (remove #, lowercase)
-        super().__init__(value)
+        clean_value = str(value).lstrip("#").strip().lower()
+        if not clean_value:
+            raise ValueError("Tag cannot be empty")
+        super().__init__(clean_value)
 
 class Record:
     """Class for storing contact info (name, phones, email, address, birthday)."""
@@ -67,32 +73,39 @@ class Record:
         self.birthday: Birthday | None = None
 
     def add_phone(self, phone: str) -> None:
-        # TODO: Implement adding phone
-        pass
+        p = Phone(phone)
+        if not any(item.value == p.value for item in self.phones):
+            self.phones.append(p)
 
     def edit_phone(self, old_phone: str, new_phone: str) -> None:
-        # TODO: Implement editing phone
-        pass
+        old_clean = str(old_phone).strip()
+        p = self.find_phone(old_clean)
+        if p is None:
+            raise ValueError("Phone number not found.")
+        new_p = Phone(new_phone)
+        p.value = new_p.value
 
     def find_phone(self, phone: str) -> Phone | None:
-        # TODO: Implement finding phone
-        pass
+        clean_phone = str(phone).strip()
+        return next((p for p in self.phones if p.value == clean_phone), None)
 
     def remove_phone(self, phone: str) -> None:
-        # TODO: Implement deleting phone
-        pass
+        p = self.find_phone(phone)
+        if p is None:
+            raise ValueError("Phone number not found.")
+        self.phones.remove(p)
 
     def add_email(self, email: str) -> None:
-        # TODO: Implement adding email
-        pass
+        e = Email(email)
+        if not any(item.value == e.value for item in self.emails):
+            self.emails.append(e)
 
     def add_address(self, address: str) -> None:
-        # TODO: Implement adding address
-        pass
+        a = Address(address)
+        self.addresses.append(a)
 
     def add_birthday(self, birthday: str) -> None:
-        # TODO: Implement setting birthday
-        pass
+        self.birthday = Birthday(birthday)
 
     def __str__(self):
         phones_str = "; ".join(p.value for p in self.phones) or "None"
@@ -104,25 +117,67 @@ class Record:
 class AddressBook(UserDict):
     """Class for managing contacts (contacts database)."""
     def add_record(self, record: Record) -> None:
-        # TODO: Add record to self.data with name as key
         self.data[record.name.value] = record
 
     def find(self, name: str) -> Record | None:
-        # TODO: Search contact by name
         return self.data.get(name)
 
     def delete(self, name: str) -> None:
-        # TODO: Delete contact by name
         if name in self.data:
             del self.data[name]
+        else:
+            raise KeyError
 
     def search(self, query: str) -> list[Record]:
-        # TODO: Search contacts by query substring
-        return []
+        query_lower = query.lower()
+        results = []
+        for record in self.data.values():
+            if query_lower in record.name.value.lower():
+                results.append(record)
+                continue
+            if any(query_lower in p.value.lower() for p in record.phones):
+                results.append(record)
+                continue
+            if any(query_lower in e.value.lower() for e in record.emails):
+                results.append(record)
+                continue
+            if any(query_lower in a.value.lower() for a in record.addresses):
+                results.append(record)
+                continue
+        return results
 
     def get_upcoming_birthdays(self, days: int = 7) -> list[dict]:
-        # TODO: Implement list of birthdays for next N days
-        return []
+        today = date.today()
+        upcoming = []
+        for record in self.data.values():
+            if not record.birthday:
+                continue
+            bday = record.birthday.value  # datetime.date object
+            try:
+                bday_this_year = bday.replace(year=today.year)
+            except ValueError:
+                # Leap year edge case (Feb 29)
+                bday_this_year = bday.replace(year=today.year, day=28)
+
+            if bday_this_year < today:
+                try:
+                    bday_this_year = bday.replace(year=today.year + 1)
+                except ValueError:
+                    bday_this_year = bday.replace(year=today.year + 1, day=28)
+
+            delta = (bday_this_year - today).days
+            if 0 <= delta <= days:
+                congratulation_date = bday_this_year
+                if congratulation_date.weekday() == 5:  # Saturday -> Monday
+                    congratulation_date += timedelta(days=2)
+                elif congratulation_date.weekday() == 6:  # Sunday -> Monday
+                    congratulation_date += timedelta(days=1)
+
+                upcoming.append({
+                    "name": record.name.value,
+                    "congratulation_date": congratulation_date.strftime(DATE_FORMAT)
+                })
+        return upcoming
 
 class Note:
     """

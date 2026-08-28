@@ -19,6 +19,8 @@ def add_contact(args: list[str], book: AddressBook) -> str:
     Handler for adding a contact.
     Syntax: add <name> <phone>
     """
+    if len(args) < 2:
+        raise IndexError
     name, phone = args[0], args[1]
     record = book.find(name)
     if record is None:
@@ -31,68 +33,182 @@ def add_contact(args: list[str], book: AddressBook) -> str:
 
 @input_error
 def change_contact(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement phone change
-    pass
+    """
+    Handler for changing a phone number.
+    Syntax: change <name> <old_phone> <new_phone>
+    """
+    if len(args) < 3:
+        raise IndexError
+    name, old_phone, new_phone = args[0], args[1], args[2]
+    record = get_record(book, name)
+    record.edit_phone(old_phone, new_phone)
+    return MESSAGES["contact_updated"]
 
 @input_error
 def delete_contact(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement contact deletion
-    pass
+    """
+    Handler for deleting a contact.
+    Syntax: delete-contact <name>
+    """
+    if not args:
+        raise IndexError
+    name = args[0]
+    book.delete(name)
+    return MESSAGES["contact_deleted"]
 
 @input_error
 def search_contacts(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement contact search
-    pass
+    """
+    Handler for searching contacts by query substring.
+    Syntax: search-contacts <query>
+    """
+    if not args:
+        raise IndexError
+    query = " ".join(args)
+    results = book.search(query)
+    if not results:
+        return MESSAGES["no_matching_contacts"]
+    return "\n".join(str(record) for record in results)
 
 @input_error
 def show_phone(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement showing contact phones
-    pass
+    """
+    Handler for showing contact phone numbers.
+    Syntax: phone <name>
+    """
+    if not args:
+        raise IndexError
+    name = args[0]
+    record = get_record(book, name)
+    if not record.phones:
+        return f"No phone numbers found for {record.name.value}."
+    return "; ".join(p.value for p in record.phones)
 
 @input_error
 def add_phone(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement adding phone to existing contact
-    pass
+    """
+    Handler for adding an additional phone number.
+    Syntax: add-phone <name> <phone>
+    """
+    if len(args) < 2:
+        raise IndexError
+    name, phone = args[0], args[1]
+    record = get_record(book, name)
+    record.add_phone(phone)
+    return MESSAGES["phone_added"]
 
 @input_error
 def add_email(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement adding email
-    pass
+    """
+    Handler for adding an email to contact.
+    Syntax: add-email <name> <email>
+    """
+    if len(args) < 2:
+        raise IndexError
+    name, email = args[0], args[1]
+    record = get_record(book, name)
+    record.add_email(email)
+    return MESSAGES["email_added"]
 
 @input_error
 def show_email(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement showing email
-    pass
+    """
+    Handler for showing contact email.
+    Syntax: show-email <name>
+    """
+    if not args:
+        raise IndexError
+    name = args[0]
+    record = get_record(book, name)
+    if not record.emails:
+        return ERRORS["no_email"]
+    return "; ".join(e.value for e in record.emails)
 
 @input_error
 def add_address(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement adding address
-    pass
+    """
+    Handler for adding contact address.
+    Syntax: add-address <name> <address...>
+    """
+    if len(args) < 2:
+        raise IndexError
+    name = args[0]
+    address = " ".join(args[1:])
+    record = get_record(book, name)
+    record.add_address(address)
+    return MESSAGES["address_added"]
 
 @input_error
 def show_address(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement showing address
-    pass
+    """
+    Handler for showing contact address.
+    Syntax: show-address <name>
+    """
+    if not args:
+        raise IndexError
+    name = args[0]
+    record = get_record(book, name)
+    if not record.addresses:
+        return ERRORS["no_address"]
+    return "; ".join(a.value for a in record.addresses)
 
 @input_error
 def add_birthday(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement adding birthday
-    pass
+    """
+    Handler for adding birthday to contact.
+    Syntax: add-birthday <name> <date>
+    """
+    if len(args) < 2:
+        raise IndexError
+    name, bday = args[0], args[1]
+    record = get_record(book, name)
+    record.add_birthday(bday)
+    return MESSAGES["birthday_added"]
 
 @input_error
 def show_birthday(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement showing birthday
-    pass
+    """
+    Handler for showing contact birthday.
+    Syntax: show-birthday <name>
+    """
+    if not args:
+        raise IndexError
+    name = args[0]
+    record = get_record(book, name)
+    if not record.birthday:
+        return ERRORS["no_birthday"]
+    return str(record.birthday)
 
 @input_error
 def birthdays(args: list[str], book: AddressBook) -> str:
-    # TODO: Implement showing upcoming birthdays
-    pass
+    """
+    Handler for showing upcoming birthdays.
+    Syntax: birthdays [days]
+    """
+    days = 7
+    if args:
+        try:
+            days = int(args[0])
+            if days <= 0:
+                raise ValueError(ERRORS["invalid_days"])
+        except ValueError as e:
+            if str(e) == ERRORS["invalid_days"]:
+                raise e
+            raise ValueError(ERRORS["invalid_days"])
+    upcoming = book.get_upcoming_birthdays(days)
+    if not upcoming:
+        return MESSAGES["no_upcoming_birthdays"]
+    return "\n".join(f"{item['name']}: {item['congratulation_date']}" for item in upcoming)
 
 @input_error
 def show_all(book: AddressBook) -> str:
-    # TODO: Implement showing all saved contacts
-    pass
+    """
+    Handler for showing all saved contacts.
+    Syntax: all
+    """
+    if not book.data:
+        return MESSAGES["no_contacts"]
+    return "\n".join(str(record) for record in book.data.values())
 # endregion
 
 # region Note Handler
