@@ -35,7 +35,6 @@ python src/main.py
 │   └── integration/              # Integration tests
 │       └── test_integration.py
 ├── class_diagram.drawio          # UML class diagram (open via diagrams.net)
-├── tasks.md                      # Sprint development roadmap
 └── README.md                     # Project overview and documentation
 ```
 
