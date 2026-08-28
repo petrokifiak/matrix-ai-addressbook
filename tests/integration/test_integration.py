@@ -77,7 +77,11 @@ class TestIntegration(unittest.TestCase):
         res = execute_command("search-notes", ["Apples"], self.book, self.notebook)
         self.assertIn("Shopping", res)
         
-        # 6. Delete note
+        # 6. Sort notes by specific tags
+        res_sort = execute_command("sort-notes-by-tags", ["food", "groceries"], self.book, self.notebook)
+        self.assertIn("Shopping", res_sort)
+
+        # 7. Delete note
         res = execute_command("delete-note", ["1"], self.book, self.notebook)
         self.assertEqual(res, "Note deleted.")
 

@@ -281,5 +281,25 @@ class NoteBook(UserDict[int, Note]):
             if any(t.value == tag_clean for t in note.tags)
         ]
 
-    def sort_notes_by_tags(self) -> list[Note]:
+    def sort_notes_by_tags(self, tags: list[str] | None = None) -> list[Note]:
+        """
+        Sorts notes by specified tags (by match count descending).
+        If no tags are specified, sorts all notes by total number of tags descending.
+        """
+        if tags:
+            clean_tags = [t.lstrip("#").strip().lower() for t in tags if t.strip()]
+            scored_notes = []
+            # Iterate through all stored notes in the notebook
+            for note in self.data.values():
+                # Extract clean string values of all tags assigned to the current note
+                note_tag_vals = {t.value for t in note.tags}
+                # Calculate how many searched tags match the tags of the current note
+                match_count = sum(1 for t in clean_tags if t in note_tag_vals)
+                # If there is at least one matching tag, include note with its match score
+                if match_count > 0:
+                    scored_notes.append((match_count, note))
+            # Sort by match count descending, then by total tags descending
+            scored_notes.sort(key=lambda item: (item[0], len(item[1].tags)), reverse=True)
+            return [note for _, note in scored_notes]
+
         return sorted(self.data.values(), key=lambda n: len(n.tags), reverse=True)

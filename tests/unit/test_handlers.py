@@ -225,8 +225,19 @@ class TestNoteHandlers(unittest.TestCase):
     def test_sort_notes_success(self):
         self.notebook.add_note("Apple", "Red", ["fruit", "red"])
         self.notebook.add_note("Banana", "Yellow", ["fruit"])
-        result = sort_notes(self.notebook)
+        result = sort_notes([], self.notebook)
         self.assertTrue(result.index("Apple") < result.index("Banana"))
+
+    def test_sort_notes_by_specific_tags(self):
+        self.notebook.add_note("Report", "Important report", ["work", "urgent"])
+        self.notebook.add_note("Letter", "A letter to friend", ["work"])
+        self.notebook.add_note("Groceries", "Milk and bread", ["home"])
+        
+        result = sort_notes(["work", "urgent"], self.notebook)
+        self.assertIn("Report", result)
+        self.assertIn("Letter", result)
+        self.assertNotIn("Groceries", result)
+        self.assertTrue(result.index("Report") < result.index("Letter"))
 
 class TestExecuteCommand(unittest.TestCase):
     def test_fuzzy_matching_single(self):

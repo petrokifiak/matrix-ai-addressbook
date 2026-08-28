@@ -323,5 +323,17 @@ class TestNoteBook(unittest.TestCase):
         self.assertEqual(results[1].id, note1.id)
         self.assertEqual(results[2].id, note3.id)
 
+    def test_sort_notes_by_specific_tags(self):
+        note1 = self.notebook.add_note("A", "C", ["work"])
+        note2 = self.notebook.add_note("B", "C", ["work", "urgent", "study"])
+        note3 = self.notebook.add_note("C", "C", ["home"])
+        
+        # Searching & sorting by 'work' and 'urgent'
+        results = self.notebook.sort_notes_by_tags(["work", "urgent"])
+        # note2 has 2 matches, note1 has 1 match, note3 has 0 matches (excluded)
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results[0].id, note2.id)
+        self.assertEqual(results[1].id, note1.id)
+
 if __name__ == "__main__":
     unittest.main()
