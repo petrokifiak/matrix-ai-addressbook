@@ -1,12 +1,12 @@
-# 🤖 Персональний помічник (Personal Assistant Bot)
+# 🤖 Personal Assistant Bot
 
-Консольний бот-помічник для зручного керування контактами, нотатками та тегами з автоматичним збереженням даних на диск (`pickle`).
+A console-based personal assistant bot for convenient management of contacts, notes, and tags with automatic data persistence on disk (`pickle`).
 
 ---
 
-## 🚀 Як запустити проєкт
+## 🚀 How to Run the Project
 
-Перейдіть у кореневу папку проєкту та виконайте команду:
+Navigate to the project root directory and run:
 
 ```bash
 python src/main.py
@@ -14,93 +14,103 @@ python src/main.py
 
 ---
 
-## 📁 Структура проєкту
+## 📁 Project Structure
 
 ```text
 ├── src/
-│   ├── main.py                   # Точка входу в програму (головний цикл бота)
-│   ├── models.py                 # Класи даних (AddressBook, Record, NoteBook, Note, поля)
-│   ├── handlers.py               # Функції-обробники команд бота
-│   ├── storage.py                # Логіка збереження та завантаження даних на диск
-│   ├── decorators.py             # Декоратор @input_error для обробки помилок вводу
-│   ├── constants.py              # Перелік команд (Command) та формат дати
-│   ├── config.py                 # Завантаження системних повідомлень
-│   ├── utils.py                  # Функція parse_input для розбору введеного тексту
-│   └── messages.json             # Тексти успішних відповідей та помилок
-├── class_diagram.drawio          # UML-діаграма класів (відкривати на diagrams.net)
-├── tasks.md                      # Спринт-таски за етапами розробки
-└── README.md                     # Опис проєкту та довідка з команд
+│   ├── main.py                   # Application entry point (main bot loop)
+│   ├── models.py                 # Data models (AddressBook, Record, NoteBook, Note, Fields)
+│   ├── handlers.py               # Bot command handler functions
+│   ├── help.py                   # Interactive help system
+│   ├── storage.py                # Data persistence logic (save/load from disk)
+│   ├── decorators.py             # @input_error decorator for user input error handling
+│   ├── constants.py              # Command enums, ANSI colors, and date formats
+│   ├── config.py                 # System messages loader
+│   ├── utils.py                  # Helper functions (parse_input, print_colored)
+│   └── messages.json             # Texts of responses and error messages
+├── tests/
+│   ├── unit/                     # Unit tests (models, handlers)
+│   │   ├── test_models.py
+│   │   └── test_handlers.py
+│   └── integration/              # Integration tests
+│       └── test_integration.py
+├── class_diagram.drawio          # UML class diagram (open via diagrams.net)
+├── tasks.md                      # Sprint development roadmap
+└── README.md                     # Project overview and documentation
 ```
 
 ---
 
-## 📋 Довідник команд
+## 📋 Command Reference
 
-### 📞 Книга контактів
+### 📞 Contacts Book
 
-| Команда | Аргументи | Опис |
+| Command | Arguments | Description |
 | :--- | :--- | :--- |
-| `hello` | — | Привітання від бота. |
-| `add` | `[ім'я] [телефон]` | Додати новий контакт або номер до існуючого. |
-| `add-phone` | `[ім'я] [телефон]` | Додати додатковий номер телефону. |
-| `change` | `[ім'я] [старий_тел] [новий_тел]` | Змінити номер телефону контакту. |
-| `phone` | `[ім'я]` | Показати всі номери телефонів контакту. |
-| `add-email` | `[ім'я] [email]` | Додати або оновити email адресу контакту. |
-| `show-email` | `[ім'я]` | Показати email адресу контакту. |
-| `add-address` | `[ім'я] [адреса...]` | Додати або оновити фізичну адресу контакту. |
-| `show-address` | `[ім'я]` | Показати адресу контакту. |
-| `add-birthday` | `[ім'я] [ДД.ММ.РРРР]` | Встановити день народження контакту. |
-| `show-birthday` | `[ім'я]` | Показати день народження контакту. |
-| `birthdays` | `[днів]` *(опціонально)* | Список іменинників на найближчі N днів (за замовчуванням 7). |
-| `search-contacts` | `[запит]` | Пошук контактів за ім'ям, телефоном, email або адресою. |
-| `delete` | `[ім'я]` | Видалити контакт з книги. |
-| `all` | — | Показати список усіх збережених контактів. |
+| `hello` | — | Greeting from the bot. |
+| `add` | `[name] [phone]` | Add a new contact or phone number to an existing one. |
+| `add-phone` | `[name] [phone]` | Add an additional phone number to a contact. |
+| `change` | `[name] [old_phone] [new_phone]` | Change an existing phone number of a contact. |
+| `phone` | `[name]` | Show all phone numbers of a contact. |
+| `add-email` | `[name] [email]` | Add or update the email address of a contact. |
+| `show-email` | `[name]` | Show the email address of a contact. |
+| `add-address` | `[name] [address...]` | Add or update the physical address of a contact. |
+| `show-address` | `[name]` | Show the physical address of a contact. |
+| `add-birthday` | `[name] [DD.MM.YYYY]` | Set the birthday for a contact. |
+| `show-birthday` | `[name]` | Show the birthday of a contact. |
+| `birthdays` | `[days]` *(optional, default 7)* | List upcoming birthdays within the next N days (with weekend shift). |
+| `search-contacts` | `[query]` | Search contacts by name, phone, email, or address substring. |
+| `delete-contact` / `delete` | `[name]` | Delete a contact from the address book. |
+| `all` | — | Show all saved contacts. |
 
-### 📝 Блокнот (Нотатки та теги)
+### 📝 NoteBook (Notes & Tags)
 
-| Команда | Аргументи | Опис |
+| Command | Arguments | Description |
 | :--- | :--- | :--- |
-| `add-note` | `[заголовок] [текст...]` | Створити нову текстову нотатку. |
-| `show-notes` | — | Показати всі збережені нотатки. |
-| `search-notes` | `[запит]` | Пошук нотаток за ключовим словом або заголовком. |
-| `edit-note` | `[заголовок] [новий_текст...]` | Змінити текст існуючої нотатки. |
-| `delete-note` | `[заголовок]` | Видалити нотатку за заголовком. |
-| `add-tag` | `[заголовок] [тег1] [тег2...]` | Додати один або декілька тегів до нотатки. |
-| `search-by-tag` | `[тег]` | Знайти всі нотатки за вказаним тегом. |
-| `sort-notes-by-tags` | — | Сортувати нотатки за кількістю тегів (від більшої до меншої). |
+| `add-note` | `[title] [content...]` | Create a new text note. |
+| `show-notes` / `all-notes` | — | Show all saved notes. |
+| `search-notes` | `[query]` | Search notes by keyword or title substring. |
+| `edit-note` | `[ID_or_title] [new_content...]` | Edit the text of an existing note. |
+| `delete-note` | `[ID_or_title]` | Delete a note by its ID or title. |
+| `add-tag` | `[ID_or_title] [tag1] [tag2...]` | Add one or more tags to a note. |
+| `search-by-tag` | `[tag]` | Find all notes matching a specific tag. |
+| `sort-notes-by-tags` | — | Sort notes by the number of tags (descending). |
 
-### ⚙️ Системні команди
+### ⚙️ System & General Commands
 
-| Команда | Аргументи | Опис |
+| Command | Arguments | Description |
 | :--- | :--- | :--- |
-| `close` / `exit` | — | Зберегти всі дані на диск та завершити роботу помічника. |
+| `help` | `[command/category]` *(optional)* | Display interactive help for all or specific commands. |
+| `close` / `exit` | — | Save all data to disk and exit the assistant. |
 
 ---
 
-## 🛠️ Як працювати з темплейтом (для розробників)
+## 🛠️ Developer Guide (Working with the Template)
 
-1. **Моделі даних (`src/models.py`):**
-   * Реалізуйте валідацію полів: `Phone` (10 цифр), `Email` (формат email), `Birthday` (дата `ДД.ММ.РРРР`).
-   * Допишіть методи роботи з контактами в `Record` та `AddressBook`.
-   * Допишіть методи управління нотатками в `Note` та `NoteBook`.
+1. **Data Models (`src/models.py`):**
+   * Field validation: `Phone` (10 digits), `Email` (email format), `Birthday` (date format `DD.MM.YYYY`), `Address` & `Name` (non-empty).
+   * Methods for contact management in `Record` and `AddressBook`.
+   * Methods for note management in `Note` and `NoteBook`.
 
-2. **Збереження даних (`src/storage.py`):**
-   * Реалізуйте збереження через `pickle` у файл (наприклад, у папці користувача `~/.personal_assistant/`).
+2. **Data Persistence (`src/storage.py`):**
+   * Persistence mechanism using `pickle` to a file in the user directory (`~/.personal_assistant/assistant_data.pkl`).
 
-3. **Обробники команд (`src/handlers.py`):**
-   * Заповніть тіла функцій-хендлерів з коментарями `TODO`.
-   * Як зразок готового хендлера орієнтуйтеся на функцію `add_contact`.
+3. **Command Handlers (`src/handlers.py`):**
+   * Modular handlers decorated with `@input_error` for robust exception handling.
 
 ---
 
-## 🧪 How to run tests
+## 🧪 How to Run Tests
 
-To run all unit tests for the project, simply open your terminal in the root directory and execute the following command:
+To run all unit and integration tests for the project, execute the following command:
 
 ```bash
-python -m unittest discover -s tests/unit
+# Run using pytest (recommended)
+python -m pytest
+
+# Or using standard unittest
+python -m unittest discover -s tests
 ```
-This will automatically find and run all tests to ensure the application works correctly.
 
 ---
 
@@ -157,4 +167,4 @@ This project includes several extra features that improve the User Experience (U
    - Implemented exclusively using the standard library (ANSI codes), with no third-party dependencies.
 
 4. **English Localization (100% English Codebase)**
-   - All internal comments, class documentation (docstrings), and TODOs are fully translated into English to adhere to best development practices.
+   - All internal comments, class documentation (docstrings), and code artifacts are fully written in English to adhere to best development practices.
