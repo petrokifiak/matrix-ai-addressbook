@@ -25,7 +25,7 @@ HELP_DICT = {
         "delete-note": {"syntax": "delete-note <title_or_id>", "desc": "Deletes a note.", "example": "delete-note Idea"},
         "add-tag": {"syntax": "add-tag <title_or_id> <tag1> [tag2...]", "desc": "Adds tags.", "example": "add-tag Idea tech fun"},
         "search-by-tag": {"syntax": "search-by-tag <tag>", "desc": "Searches by tag.", "example": "search-by-tag tech"},
-        "sort-notes-by-tags": {"syntax": "sort-notes-by-tags", "desc": "Sorts notes by number of tags.", "example": "sort-notes-by-tags"}
+        "sort-notes-by-tags": {"syntax": "sort-notes-by-tags [tag1 tag2...]", "desc": "Sorts notes by matching tags (or total tags).", "example": "sort-notes-by-tags work urgent"}
     },
     "General": {
         "hello": {"syntax": "hello", "desc": "Greeting.", "example": "hello"},

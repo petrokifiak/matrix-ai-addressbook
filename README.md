@@ -73,7 +73,7 @@ python src/main.py
 | `delete-note` | `[ID_or_title]` | Delete a note by its ID or title. |
 | `add-tag` | `[ID_or_title] [tag1] [tag2...]` | Add one or more tags to a note. |
 | `search-by-tag` | `[tag]` | Find all notes matching a specific tag. |
-| `sort-notes-by-tags` | — | Sort notes by the number of tags (descending). |
+| `sort-notes-by-tags` | `[tag1 tag2...]` *(optional)* | Sort notes by matching tags (relevance descending) or total tags. |
 
 ### ⚙️ System & General Commands
 

@@ -280,10 +280,14 @@ def search_by_tag(args: list[str], notebook: NoteBook) -> str:
     return "\n".join(str(note) for note in results)
 
 @input_error
-def sort_notes(notebook: NoteBook) -> str:
-    results = notebook.sort_notes_by_tags()
+def sort_notes(args: list[str], notebook: NoteBook) -> str:
+    """
+    Handler for sorting notes by tags.
+    Syntax: sort-notes-by-tags [tag1 tag2...]
+    """
+    results = notebook.sort_notes_by_tags(args)
     if not results:
-        return MESSAGES.get("no_notes", "No notes found.")
+        return MESSAGES.get("no_matching_notes", "No matching notes found.") if args else MESSAGES.get("no_notes", "No notes found.")
     return "\n".join(str(note) for note in results)
 # endregion
 
@@ -340,7 +344,7 @@ def execute_command(command: str, args: list[str], address_book: AddressBook, no
     elif command == Command.SEARCH_BY_TAG.value:
         return search_by_tag(args, notebook)
     elif command == Command.SORT_NOTES_BY_TAGS.value:
-        return sort_notes(notebook)
+        return sort_notes(args, notebook)
     else:
         valid_commands = [cmd.value for cmd in Command]
         matches = difflib.get_close_matches(command, valid_commands, n=3, cutoff=0.5)
