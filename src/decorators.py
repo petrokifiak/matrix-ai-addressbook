@@ -1,6 +1,8 @@
 from config import ERRORS
 
+
 def input_error(func):
+    """Decorator to catch and handle common exceptions in command handlers."""
     def inner(*args, **kwargs):
         try:
             return func(*args, **kwargs)
