@@ -1,19 +1,40 @@
-import unittest
-import sys
 import os
+import sys
+import unittest
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')))
-
-from src.models import AddressBook, Record, NoteBook
-from src.handlers import (
-    add_contact, change_contact, delete_contact, search_contacts,
-    show_phone, add_phone, add_email, show_email,
-    add_address, show_address, add_birthday, show_birthday,
-    birthdays, show_all,
-    add_note, edit_note, delete_note, search_notes, show_notes,
-    add_tag, search_by_tag, sort_notes, execute_command
+sys.path.insert(
+    0,
+    os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src')),
 )
-from src.config import MESSAGES, ERRORS
+
+from src.config import ERRORS, MESSAGES
+from src.handlers import (
+    add_address,
+    add_birthday,
+    add_contact,
+    add_email,
+    add_note,
+    add_phone,
+    add_tag,
+    birthdays,
+    change_contact,
+    delete_contact,
+    delete_note,
+    edit_note,
+    execute_command,
+    search_by_tag,
+    search_contacts,
+    search_notes,
+    show_address,
+    show_all,
+    show_birthday,
+    show_email,
+    show_notes,
+    show_phone,
+    sort_notes,
+)
+from src.models import AddressBook, NoteBook, Record
+
 
 class TestContactHandlers(unittest.TestCase):
     def setUp(self):
@@ -119,6 +140,7 @@ class TestContactHandlers(unittest.TestCase):
         add_contact(["John", "0501234567"], self.book)
         res = show_all(self.book)
         self.assertIn("John", res)
+
 
 class TestNoteHandlers(unittest.TestCase):
     def setUp(self):
@@ -239,6 +261,7 @@ class TestNoteHandlers(unittest.TestCase):
         self.assertNotIn("Groceries", result)
         self.assertTrue(result.index("Report") < result.index("Letter"))
 
+
 class TestExecuteCommand(unittest.TestCase):
     def test_fuzzy_matching_single(self):
         from src.handlers import execute_command
@@ -297,6 +320,7 @@ class TestExecuteCommand(unittest.TestCase):
         notebook = NoteBook()
         result = execute_command("help", ["some-fake-cmd"], book, notebook)
         self.assertIn("not found", result)
+
 
 if __name__ == "__main__":
     unittest.main()
