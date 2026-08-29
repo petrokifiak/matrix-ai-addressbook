@@ -1,13 +1,16 @@
 from constants import Colors
 from config import MESSAGES, ERRORS
 
+
 def parse_input(user_input: str) -> tuple[str, list[str]]:
+    """Parse user input into a command string and arguments list."""
     parts = user_input.split()
     if not parts:
         return "", []
     cmd = parts[0].strip().lower()
     args = parts[1:]
     return cmd, args
+
 
 def print_colored(text: str) -> None:
     """Prints text with the appropriate color based on its content."""
@@ -26,12 +29,19 @@ def print_colored(text: str) -> None:
         if err in text:
             is_error = True
             break
-    
+
     if is_error or text.startswith("Invalid") or text.startswith("Command '"):
         print(f"{Colors.RED}{text}{Colors.RESET}")
     # Check for success messages
-    elif any(msg in text for msg in MESSAGES.values()) and text not in (MESSAGES.get("welcome", ""), MESSAGES.get("goodbye", "")):
+    elif (
+        any(msg in text for msg in MESSAGES.values())
+        and text not in (
+            MESSAGES.get("welcome", ""),
+            MESSAGES.get("goodbye", ""),
+        )
+    ):
         print(f"{Colors.GREEN}{text}{Colors.RESET}")
     else:
         # Standard output
         print(text)
+

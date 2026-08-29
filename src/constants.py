@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Command(Enum):
     HELLO = "hello"
     ADD = "add"
@@ -31,12 +32,14 @@ class Command(Enum):
     EXIT = "exit"
     HELP = "help"
 
+
 class Colors:
     CYAN = "\033[96m"
     GREEN = "\033[92m"
     RED = "\033[91m"
     YELLOW = "\033[93m"
     RESET = "\033[0m"
+
 
 DATE_FORMAT = "%d.%m.%Y"
 PHONE_FORMAT = r"^\d{10}$"

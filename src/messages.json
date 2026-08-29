@@ -1,6 +1,6 @@
 {
   "errors": {
-    "invalid_command": "Enter a command:",
+    "invalid_command": "Unknown command.",
     "missing_args": "Enter the argument for the command",
     "contact_not_found": "Contact not found.",
     "no_birthday": "Birthday is not set for this contact.",
