@@ -1,10 +1,21 @@
 import unittest
 from datetime import date, timedelta
-from src.models import (
-    Field, Name, Phone, Email, Address, Birthday, Tag,
-    Record, AddressBook, Note, NoteBook
-)
+
 from src.constants import DATE_FORMAT
+from src.models import (
+    Address,
+    AddressBook,
+    Birthday,
+    Email,
+    Field,
+    Name,
+    Note,
+    NoteBook,
+    Phone,
+    Record,
+    Tag,
+)
+
 
 class TestContactFields(unittest.TestCase):
     def test_name_success(self):
@@ -115,6 +126,7 @@ class TestRecord(unittest.TestCase):
         self.assertIsNotNone(self.record.birthday)
         self.assertEqual(str(self.record.birthday), "15.08.1995")
 
+
 class TestAddressBook(unittest.TestCase):
     def setUp(self):
         self.book = AddressBook()
@@ -224,6 +236,7 @@ class TestNote(unittest.TestCase):
         with self.assertRaises(ValueError):
             note.edit_content("   ")
 
+
 class TestNoteBook(unittest.TestCase):
     def setUp(self):
         self.notebook = NoteBook()
@@ -252,7 +265,7 @@ class TestNoteBook(unittest.TestCase):
         found = self.notebook.find_note("Unique Title")
         self.assertIsNotNone(found)
         self.assertEqual(found.id, note.id)
-        
+
         found_lower = self.notebook.find_note("unique title")
         self.assertIsNotNone(found_lower)
         self.assertEqual(found_lower.id, note.id)
@@ -285,16 +298,16 @@ class TestNoteBook(unittest.TestCase):
         self.notebook.add_note("Apple", "Red fruit")
         self.notebook.add_note("Banana", "Yellow fruit")
         self.notebook.add_note("Car", "Fast vehicle")
-        
+
         # Search by content
         results = self.notebook.search_notes("fruit")
         self.assertEqual(len(results), 2)
-        
+
         # Search by title
         results = self.notebook.search_notes("apple")
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].title, "Apple")
-        
+
         # No match
         results = self.notebook.search_notes("grape")
         self.assertEqual(len(results), 0)
@@ -303,10 +316,10 @@ class TestNoteBook(unittest.TestCase):
         note1 = self.notebook.add_note("Apple", "Red fruit", ["fruit", "red"])
         note2 = self.notebook.add_note("Banana", "Yellow fruit", ["fruit"])
         note3 = self.notebook.add_note("Car", "Fast vehicle", ["vehicle"])
-        
+
         results = self.notebook.search_by_tag("fruit")
         self.assertEqual(len(results), 2)
-        
+
         results2 = self.notebook.search_by_tag("red")
         self.assertEqual(len(results2), 1)
         self.assertEqual(results2[0].id, note1.id)
@@ -318,7 +331,7 @@ class TestNoteBook(unittest.TestCase):
         note1 = self.notebook.add_note("A", "C", ["tag1"])
         note2 = self.notebook.add_note("B", "C", ["tag1", "tag2", "tag3"])
         note3 = self.notebook.add_note("C", "C")
-        
+
         results = self.notebook.sort_notes_by_tags()
         self.assertEqual(results[0].id, note2.id)
         self.assertEqual(results[1].id, note1.id)
@@ -328,13 +341,14 @@ class TestNoteBook(unittest.TestCase):
         note1 = self.notebook.add_note("A", "C", ["work"])
         note2 = self.notebook.add_note("B", "C", ["work", "urgent", "study"])
         note3 = self.notebook.add_note("C", "C", ["home"])
-        
+
         # Searching & sorting by 'work' and 'urgent'
         results = self.notebook.sort_notes_by_tags(["work", "urgent"])
         # note2 has 2 matches, note1 has 1 match, note3 has 0 matches (excluded)
         self.assertEqual(len(results), 2)
         self.assertEqual(results[0].id, note2.id)
         self.assertEqual(results[1].id, note1.id)
+
 
 if __name__ == "__main__":
     unittest.main()

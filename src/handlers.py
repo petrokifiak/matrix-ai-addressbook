@@ -1,9 +1,11 @@
 import difflib
-from decorators import input_error
-from constants import Command
+
 from config import ERRORS, MESSAGES
-from models import AddressBook, Record, NoteBook
+from constants import Command
+from decorators import input_error
 from help import get_help
+from models import AddressBook, NoteBook, Record
+
 
 def get_record(book: AddressBook, name: str) -> Record:
     """Helper function to get a record or raise KeyError."""
@@ -12,11 +14,12 @@ def get_record(book: AddressBook, name: str) -> Record:
         raise KeyError
     return record
 
+
 # region Contact Handlers
 @input_error
 def add_contact(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for adding a contact.
+    """Handler for adding a contact.
+
     Syntax: add <name> <phone>
     """
     if len(args) < 2:
@@ -31,10 +34,11 @@ def add_contact(args: list[str], book: AddressBook) -> str:
         record.add_phone(phone)
     return MESSAGES["contact_added"]
 
+
 @input_error
 def change_contact(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for changing a phone number.
+    """Handler for changing a phone number.
+
     Syntax: change <name> <old_phone> <new_phone>
     """
     if len(args) < 3:
@@ -44,10 +48,11 @@ def change_contact(args: list[str], book: AddressBook) -> str:
     record.edit_phone(old_phone, new_phone)
     return MESSAGES["contact_updated"]
 
+
 @input_error
 def delete_contact(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for deleting a contact.
+    """Handler for deleting a contact.
+
     Syntax: delete-contact <name>
     """
     if not args:
@@ -56,10 +61,11 @@ def delete_contact(args: list[str], book: AddressBook) -> str:
     book.delete(name)
     return MESSAGES["contact_deleted"]
 
+
 @input_error
 def search_contacts(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for searching contacts by query substring.
+    """Handler for searching contacts by query substring.
+
     Syntax: search-contacts <query>
     """
     if not args:
@@ -70,10 +76,11 @@ def search_contacts(args: list[str], book: AddressBook) -> str:
         return MESSAGES["no_matching_contacts"]
     return "\n".join(str(record) for record in results)
 
+
 @input_error
 def show_phone(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for showing contact phone numbers.
+    """Handler for showing contact phone numbers.
+
     Syntax: phone <name>
     """
     if not args:
@@ -84,10 +91,11 @@ def show_phone(args: list[str], book: AddressBook) -> str:
         return f"No phone numbers found for {record.name.value}."
     return "; ".join(p.value for p in record.phones)
 
+
 @input_error
 def add_phone(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for adding an additional phone number.
+    """Handler for adding an additional phone number.
+
     Syntax: add-phone <name> <phone>
     """
     if len(args) < 2:
@@ -97,10 +105,11 @@ def add_phone(args: list[str], book: AddressBook) -> str:
     record.add_phone(phone)
     return MESSAGES["phone_added"]
 
+
 @input_error
 def add_email(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for adding an email to contact.
+    """Handler for adding an email to contact.
+
     Syntax: add-email <name> <email>
     """
     if len(args) < 2:
@@ -110,10 +119,11 @@ def add_email(args: list[str], book: AddressBook) -> str:
     record.add_email(email)
     return MESSAGES["email_added"]
 
+
 @input_error
 def show_email(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for showing contact email.
+    """Handler for showing contact email.
+
     Syntax: show-email <name>
     """
     if not args:
@@ -124,10 +134,11 @@ def show_email(args: list[str], book: AddressBook) -> str:
         return ERRORS["no_email"]
     return "; ".join(e.value for e in record.emails)
 
+
 @input_error
 def add_address(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for adding contact address.
+    """Handler for adding contact address.
+
     Syntax: add-address <name> <address...>
     """
     if len(args) < 2:
@@ -138,10 +149,11 @@ def add_address(args: list[str], book: AddressBook) -> str:
     record.add_address(address)
     return MESSAGES["address_added"]
 
+
 @input_error
 def show_address(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for showing contact address.
+    """Handler for showing contact address.
+
     Syntax: show-address <name>
     """
     if not args:
@@ -152,10 +164,11 @@ def show_address(args: list[str], book: AddressBook) -> str:
         return ERRORS["no_address"]
     return "; ".join(a.value for a in record.addresses)
 
+
 @input_error
 def add_birthday(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for adding birthday to contact.
+    """Handler for adding birthday to contact.
+
     Syntax: add-birthday <name> <date>
     """
     if len(args) < 2:
@@ -165,10 +178,11 @@ def add_birthday(args: list[str], book: AddressBook) -> str:
     record.add_birthday(bday)
     return MESSAGES["birthday_added"]
 
+
 @input_error
 def show_birthday(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for showing contact birthday.
+    """Handler for showing contact birthday.
+
     Syntax: show-birthday <name>
     """
     if not args:
@@ -179,10 +193,11 @@ def show_birthday(args: list[str], book: AddressBook) -> str:
         return ERRORS["no_birthday"]
     return f"{record.birthday} (turning {record.get_turning_age()} years old!)"
 
+
 @input_error
 def birthdays(args: list[str], book: AddressBook) -> str:
-    """
-    Handler for showing upcoming birthdays.
+    """Handler for showing upcoming birthdays.
+
     Syntax: birthdays [days]
     """
     days = 7
@@ -203,8 +218,8 @@ def birthdays(args: list[str], book: AddressBook) -> str:
 
 @input_error
 def show_all(book: AddressBook) -> str:
-    """
-    Handler for showing all saved contacts.
+    """Handler for showing all saved contacts.
+
     Syntax: all
     """
     if not book.data:
@@ -212,9 +227,14 @@ def show_all(book: AddressBook) -> str:
     return "\n".join(str(record) for record in book.data.values())
 # endregion
 
-# region Note Handler
+
+# region Note Handlers
 @input_error
 def add_note(args: list[str], notebook: NoteBook) -> str:
+    """Handler for creating a new text note.
+
+    Syntax: add-note <title> <content...>
+    """
     title = args[0]
     content = " ".join(args[1:])
     if not content:
@@ -222,14 +242,24 @@ def add_note(args: list[str], notebook: NoteBook) -> str:
     note = notebook.add_note(title, content)
     return f"{MESSAGES['note_added']} ID: {note.id}"
 
+
 @input_error
 def show_notes(notebook: NoteBook) -> str:
+    """Handler for displaying all saved notes.
+
+    Syntax: show-notes
+    """
     if not notebook.data:
         return MESSAGES.get("no_notes", "No notes found.")
     return "\n".join(str(note) for note in notebook.data.values())
 
+
 @input_error
 def search_notes(args: list[str], notebook: NoteBook) -> str:
+    """Handler for searching notes by keyword in title or content.
+
+    Syntax: search-notes <query>
+    """
     query = " ".join(args)
     if not query:
         raise IndexError
@@ -238,8 +268,13 @@ def search_notes(args: list[str], notebook: NoteBook) -> str:
         return MESSAGES["no_matching_notes"]
     return "\n".join(str(note) for note in results)
 
+
 @input_error
 def edit_note(args: list[str], notebook: NoteBook) -> str:
+    """Handler for editing an existing note's content by title or ID.
+
+    Syntax: edit-note <title_or_id> <new_content...>
+    """
     identifier = args[0]
     new_content = " ".join(args[1:])
     if not new_content:
@@ -249,16 +284,26 @@ def edit_note(args: list[str], notebook: NoteBook) -> str:
         raise ValueError(ERRORS["note_not_found"])
     return MESSAGES["note_updated"]
 
+
 @input_error
 def delete_note(args: list[str], notebook: NoteBook) -> str:
+    """Handler for deleting a note by title or ID.
+
+    Syntax: delete-note <title_or_id>
+    """
     identifier = args[0]
     success = notebook.delete_note(identifier)
     if not success:
         raise ValueError(ERRORS["note_not_found"])
     return MESSAGES["note_deleted"]
 
+
 @input_error
 def add_tag(args: list[str], notebook: NoteBook) -> str:
+    """Handler for adding one or more tags to a note.
+
+    Syntax: add-tag <title_or_id> <tag1> [tag2...]
+    """
     if len(args) < 2:
         raise IndexError
     identifier = args[0]
@@ -270,8 +315,13 @@ def add_tag(args: list[str], notebook: NoteBook) -> str:
         note.add_tag(tag)
     return MESSAGES.get("tag_added", "Tags added.")
 
+
 @input_error
 def search_by_tag(args: list[str], notebook: NoteBook) -> str:
+    """Handler for searching notes by a specific tag.
+
+    Syntax: search-by-tag <tag>
+    """
     if not args:
         raise IndexError
     tag = args[0]
@@ -280,20 +330,31 @@ def search_by_tag(args: list[str], notebook: NoteBook) -> str:
         return MESSAGES.get("no_matching_notes", "No notes found.")
     return "\n".join(str(note) for note in results)
 
+
 @input_error
 def sort_notes(args: list[str], notebook: NoteBook) -> str:
-    """
-    Handler for sorting notes by tags.
+    """Handler for sorting notes by tags.
+
     Syntax: sort-notes-by-tags [tag1 tag2...]
     """
     results = notebook.sort_notes_by_tags(args)
     if not results:
-        return MESSAGES.get("no_matching_notes", "No matching notes found.") if args else MESSAGES.get("no_notes", "No notes found.")
+        if args:
+            return MESSAGES.get(
+                "no_matching_notes", "No matching notes found."
+            )
+        return MESSAGES.get("no_notes", "No notes found.")
     return "\n".join(str(note) for note in results)
 # endregion
 
+
 @input_error
-def execute_command(command: str, args: list[str], address_book: AddressBook, notebook: NoteBook | None = None) -> str:
+def execute_command(
+    command: str,
+    args: list[str],
+    address_book: AddressBook,
+    notebook: NoteBook | None = None,
+) -> str:
     """Bot command router."""
     if notebook is None:
         notebook = NoteBook()
@@ -348,10 +409,19 @@ def execute_command(command: str, args: list[str], address_book: AddressBook, no
         return sort_notes(args, notebook)
     else:
         valid_commands = [cmd.value for cmd in Command]
-        matches = difflib.get_close_matches(command, valid_commands, n=3, cutoff=0.5)
+        matches = difflib.get_close_matches(
+            command, valid_commands, n=3, cutoff=0.5
+        )
         if matches:
             if len(matches) == 1:
-                return f"Invalid command '{command}'. Did you mean: {matches[0]}?"
+                return (
+                    f"Invalid command '{command}'. "
+                    f"Did you mean: {matches[0]}?"
+                )
             suggestions = ", ".join(matches)
-            return f"Invalid command '{command}'. Did you mean one of these: {suggestions}?"
+            return (
+                f"Invalid command '{command}'. "
+                f"Did you mean one of these: {suggestions}?"
+            )
         raise ValueError(ERRORS["invalid_command"])
+
