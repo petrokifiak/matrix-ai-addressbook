@@ -102,7 +102,8 @@ class TestContactHandlers(unittest.TestCase):
         self.assertEqual(res_add, MESSAGES["birthday_added"])
 
         res_show = show_birthday(["John"], self.book)
-        self.assertEqual(res_show, "15.08.1995")
+        turning = self.book.find("John").get_turning_age()
+        self.assertEqual(res_show, f"15.08.1995 (turning {turning} years old!)")
 
     def test_birthdays_handler(self):
         add_contact(["John", "0501234567"], self.book)
@@ -113,6 +114,7 @@ class TestContactHandlers(unittest.TestCase):
 
         result = birthdays(["7"], self.book)
         self.assertIn("John", result)
+        self.assertIn(f"turning {target_date.year - 1990} years old!", result)
 
     def test_show_all(self):
         self.assertEqual(show_all(self.book), MESSAGES["no_contacts"])

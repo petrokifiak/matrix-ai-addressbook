@@ -39,7 +39,8 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(execute_command("phone", ["John"], self.book, self.notebook), "0501234567; 0671112233")
         self.assertEqual(execute_command("show-email", ["John"], self.book, self.notebook), "john@example.com")
         self.assertEqual(execute_command("show-address", ["John"], self.book, self.notebook), "Kyiv, Main St 1")
-        self.assertEqual(execute_command("show-birthday", ["John"], self.book, self.notebook), "15.08.1995")
+        turning = self.book.find("John").get_turning_age()
+        self.assertEqual(execute_command("show-birthday", ["John"], self.book, self.notebook), f"15.08.1995 (turning {turning} years old!)")
         
         # 7. Search contacts
         search_res = execute_command("search-contacts", ["Kyiv"], self.book, self.notebook)

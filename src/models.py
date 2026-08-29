@@ -5,6 +5,12 @@ from datetime import date, datetime, timedelta
 from config import ERRORS
 from constants import DATE_FORMAT, PHONE_FORMAT, EMAIL_FORMAT
 
+def birthday_in_year(bday: date, year: int) -> date:
+    try:
+        return bday.replace(year=year)
+    except ValueError:
+        return bday.replace(year=year, month=2, day=28)
+
 class Field:
     """Base class for record fields."""
     def __init__(self, value):
@@ -107,6 +113,20 @@ class Record:
     def add_birthday(self, birthday: str) -> None:
         self.birthday = Birthday(birthday)
 
+    def get_age(self, on_date: date | None = None) -> int | None:
+        if not self.birthday:
+            return None
+        on_date = on_date or date.today()
+        bday = self.birthday.value
+        age = on_date.year - bday.year
+        if on_date < birthday_in_year(bday, on_date.year):
+            age -= 1
+        return age
+
+    def get_turning_age(self, on_date: date | None = None) -> int | None:
+        age = self.get_age(on_date)
+        return None if age is None else age + 1
+
     def __str__(self):
         phones_str = "; ".join(p.value for p in self.phones) or "None"
         emails_str = "; ".join(e.value for e in self.emails) or "None"
@@ -153,17 +173,9 @@ class AddressBook(UserDict):
             if not record.birthday:
                 continue
             bday = record.birthday.value  # datetime.date object
-            try:
-                bday_this_year = bday.replace(year=today.year)
-            except ValueError:
-                # Leap year edge case (Feb 29)
-                bday_this_year = bday.replace(year=today.year, day=28)
-
+            bday_this_year = birthday_in_year(bday, today.year)
             if bday_this_year < today:
-                try:
-                    bday_this_year = bday.replace(year=today.year + 1)
-                except ValueError:
-                    bday_this_year = bday.replace(year=today.year + 1, day=28)
+                bday_this_year = birthday_in_year(bday, today.year + 1)
 
             delta = (bday_this_year - today).days
             if 0 <= delta <= days:
@@ -175,7 +187,9 @@ class AddressBook(UserDict):
 
                 upcoming.append({
                     "name": record.name.value,
-                    "congratulation_date": congratulation_date.strftime(DATE_FORMAT)
+                    "congratulation_date": congratulation_date.strftime(DATE_FORMAT),
+                    # Count from the birthday itself, not from the date shifted to Monday
+                    "age": bday_this_year.year - bday.year
                 })
         return upcoming
 
