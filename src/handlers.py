@@ -191,7 +191,7 @@ def show_birthday(args: list[str], book: AddressBook) -> str:
     record = get_record(book, name)
     if not record.birthday:
         return ERRORS["no_birthday"]
-    return str(record.birthday)
+    return f"{record.birthday} (turning {record.get_turning_age()} years old!)"
 
 
 @input_error
@@ -213,10 +213,8 @@ def birthdays(args: list[str], book: AddressBook) -> str:
     upcoming = book.get_upcoming_birthdays(days)
     if not upcoming:
         return MESSAGES["no_upcoming_birthdays"]
-    return "\n".join(
-        f"{item['name']}: {item['congratulation_date']}" for item in upcoming
-    )
-
+    lines = [f"- {item['name']}: {item['congratulation_date']} (turning {item['age']} years old!)" for item in upcoming]
+    return f"Upcoming birthdays for the next {days} days:\n" + "\n".join(lines)
 
 @input_error
 def show_all(book: AddressBook) -> str:

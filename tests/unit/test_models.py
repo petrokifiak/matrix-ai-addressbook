@@ -201,6 +201,7 @@ class TestAddressBook(unittest.TestCase):
         upcoming = self.book.get_upcoming_birthdays(days=7)
         self.assertEqual(len(upcoming), 1)
         self.assertEqual(upcoming[0]["name"], "Alice")
+        self.assertEqual(upcoming[0]["age"], target_date_1.year - 1990)
 
 
 class TestNote(unittest.TestCase):
