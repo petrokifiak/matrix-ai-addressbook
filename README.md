@@ -59,8 +59,13 @@ python src/main.py
 | `show-birthday` | `[name]` | Show the birthday of a contact. |
 | `birthdays` | `[days]` *(optional, default 7)* | List upcoming birthdays within the next N days (with weekend shift). |
 | `search-contacts` | `[query]` | Search contacts by name, phone, email, or address substring. |
-| `delete-contact` / `delete` | `[name]` | Delete a contact from the address book. |
-| `all` | — | Show all saved contacts. |
+| `delete-contact` / `delete` | `[name]` | Archive a contact (soft delete). |
+| `restore-contact` | `[name]` | Restore an archived contact. |
+| `archived` | — | Show all archived contacts. |
+| `all` | `[--all \| -a]` *(optional)* | Show all active contacts. Use `--all` or `-a` to include archived. |
+| `export-contacts` | `[filename.csv/json]` | Export contacts to a CSV or JSON file. |
+| `import-contacts` | `[filepath]` | Import contacts from a CSV or JSON file. |
+| `clear-contacts` | — | Clears all saved contacts. |
 
 ### 📝 NoteBook (Notes & Tags)
 
@@ -74,28 +79,56 @@ python src/main.py
 | `add-tag` | `[ID_or_title] [tag1] [tag2...]` | Add one or more tags to a note. |
 | `search-by-tag` | `[tag]` | Find all notes matching a specific tag. |
 | `sort-notes-by-tags` | `[tag1 tag2...]` *(optional)* | Sort notes by matching tags (relevance descending) or total tags. |
+| `export-notes` | `[filename.json]` | Export notes to a JSON file. |
+| `import-notes` | `[filepath.json]` | Import notes from a JSON file. |
+| `clear-notes` | — | Clears all saved notes. |
 
 ### ⚙️ System & General Commands
 
 | Command | Arguments | Description |
 | :--- | :--- | :--- |
 | `help` | `[command/category]` *(optional)* | Display interactive help for all or specific commands. |
+| `clear-data` | — | Clears all saved contacts and notes. |
 | `close` / `exit` | — | Save all data to disk and exit the assistant. |
 
 ---
 
 ## 🛠️ Developer Guide (Working with the Template)
 
-1. **Data Models (`src/models.py`):**
-   * Field validation: `Phone` (10 digits), `Email` (email format), `Birthday` (date format `DD.MM.YYYY`), `Address` & `Name` (non-empty).
+1. **Data Models (`src/models/`):**
+   * Field validation: `Phone` (10 digits), `Email` (email format), `Birthday` (custom date validation handling leap years), `Address` & `Name` (non-empty).
    * Methods for contact management in `Record` and `AddressBook`.
    * Methods for note management in `Note` and `NoteBook`.
 
-2. **Data Persistence (`src/storage.py`):**
-   * Persistence mechanism using `pickle` to a file in the user directory (`~/.personal_assistant/assistant_data.pkl`).
+2. **Data Persistence (`src/storage/`):**
+   * Persistence mechanism using `pickle` to a file in the user directory (`~/.personal_assistant/assistant_data.pkl`), utilizing the Repository pattern.
 
-3. **Command Handlers (`src/handlers.py`):**
-   * Modular handlers decorated with `@input_error` for robust exception handling.
+3. **Command Architecture (`src/commands/` & `src/core/`):**
+   * Completely refactored to use the **Command Pattern**. All commands are encapsulated in individual classes.
+   * Employs **Middleware** (Chain of Responsibility) for validation and logging before a command is executed.
+    * Event-driven architecture for handling decoupled notifications.
+
+---
+
+## 🏛️ Architecture, Patterns & Libraries
+
+### Design Patterns
+1. **Command Pattern**: Encapsulates requests as objects, allowing for parameterization of clients with queues or logs.
+   * *Example*: `AddContactCommand`, `ShowAllCommand` in `src/commands/`.
+2. **Chain of Responsibility (Middleware)**: Passes a request along a chain of handlers.
+   * *Example*: `ValidationMiddleware` ensures the application state is valid before allowing any command to execute.
+3. **Observer Pattern**: Defines a subscription mechanism to notify multiple objects about any events that happen to the object they're observing.
+   * *Example*: `dispatcher.dispatch("NOTE_ADDED")` notifies the `LoggingObserver` to log the event without coupling the command to the logger.
+4. **Repository Pattern**: Mediates between the domain and data mapping layers acting like an in-memory collection of domain objects.
+   * *Example*: `PickleStorage` in `src/storage/` abstracts the `pickle` read/write operations from the application logic.
+
+### External Libraries & Modules
+1. **`prompt_toolkit`**: Used for building the powerful interactive command-line interface.
+   * *Feature*: Provides auto-completion (`WordCompleter`) and command history navigation (`FileHistory`).
+2. **`rich`**: A Python library for rich text and beautiful formatting in the terminal.
+   * *Feature*: Renders list-based outputs (contacts, notes, birthdays) as aligned, colored tables (`rich.table.Table`).
+3. **`pytest`**: A framework that makes building simple and scalable tests easy.
+   * *Feature*: Used extensively in the `tests/` directory to run unit and integration tests for the new OOP architecture.
 
 ---
 
@@ -104,6 +137,8 @@ python src/main.py
 To run all unit and integration tests for the project, execute the following command:
 
 ```bash
+# if need call firt
+deactivate
 # Run using pytest (recommended)
 python -m pytest
 
@@ -158,12 +193,9 @@ This project includes several extra features that improve the User Experience (U
 2. **Fuzzy Matching (Smart Command Search)**
    - If a user makes a typo when entering a command (e.g., `add-ntoe` instead of `add-note`), the bot automatically suggests correct options: *"Invalid command 'add-ntoe'. Did you mean: add-note?"*.
 
-3. **Colorized CLI (ANSI Colors)**
-   - The console interface is color-coded for better readability:
-     - 🔴 Errors and warnings are highlighted in red.
-     - 🟢 Successful actions are in green.
-     - 🟡 Input prompts and menus are in yellow/cyan.
-   - Implemented exclusively using the standard library (ANSI codes), with no third-party dependencies.
+3. **Advanced CLI Interface (`prompt_toolkit` & `rich`)**
+   - **Interactive Prompt:** Features auto-completion for commands and command history navigation (using Up/Down arrows).
+   - **Rich Tables:** All list-based outputs (e.g., viewing contacts, notes, and birthdays) are rendered as beautiful, formatted, and aligned tables using the `rich` library.
 
 4. **English Localization (100% English Codebase)**
    - All internal comments, class documentation (docstrings), and code artifacts are fully written in English to adhere to best development practices.

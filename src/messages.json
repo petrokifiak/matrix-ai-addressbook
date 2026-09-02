@@ -10,7 +10,10 @@
     "invalid_days": "Days argument must be a positive integer.",
     "invalid_phone": "Phone number must contain exactly 10 digits.",
     "invalid_email": "Invalid email format. Example: user@example.com",
-    "invalid_birthday": "Invalid date format. Use DD.MM.YYYY"
+    "invalid_birthday": "Invalid date format. Use DD.MM.YYYY",
+    "unsupported_format": "Unsupported format. Only .csv and .json are supported.",
+    "file_not_found": "File not found.",
+    "import_error": "An error occurred during import."
   },
   "messages": {
     "welcome": "Welcome to the assistant bot!",
@@ -31,6 +34,16 @@
     "note_deleted": "Note deleted.",
     "tag_added": "Tag added to note.",
     "no_notes": "No notes found.",
-    "no_matching_notes": "No matching notes found."
+    "no_matching_notes": "No matching notes found.",
+    "contacts_exported": "Contacts exported successfully.",
+    "contacts_imported": "Contacts imported successfully.",
+    "notes_exported": "Notes exported successfully.",
+    "notes_imported": "Notes imported successfully.",
+    "data_cleared": "All data has been successfully cleared.",
+    "contacts_cleared": "All contacts have been successfully cleared.",
+    "notes_cleared": "All notes have been successfully cleared.",
+    "contact_archived": "Contact archived.",
+    "contact_restored": "Contact restored.",
+    "no_archived_contacts": "No archived contacts found."
   }
 }

@@ -1,1 +1,5 @@
 pytest
+typer
+rich
+textual
+prompt_toolkit
