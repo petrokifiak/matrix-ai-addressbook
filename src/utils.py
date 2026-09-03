@@ -1,10 +1,15 @@
+import shlex
 from constants import Colors
 from config import MESSAGES, ERRORS
 
 
 def parse_input(user_input: str) -> tuple[str, list[str]]:
     """Parse user input into a command string and arguments list."""
-    parts = user_input.split()
+    try:
+        parts = shlex.split(user_input)
+    except ValueError:
+        parts = user_input.split()
+        
     if not parts:
         return "", []
     cmd = parts[0].strip().lower()

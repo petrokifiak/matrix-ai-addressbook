@@ -29,9 +29,19 @@ HELP_DICT = {
             "example": "delete-contact John",
         },
         "all": {
-            "syntax": "all",
-            "desc": "Shows all contacts.",
-            "example": "all",
+            "syntax": "all [--all | -a]",
+            "desc": "Shows all contacts (use --all or -a to include archived).",
+            "example": "all --all",
+        },
+        "archived": {
+            "syntax": "archived",
+            "desc": "Shows all archived contacts.",
+            "example": "archived",
+        },
+        "restore-contact": {
+            "syntax": "restore-contact <name>",
+            "desc": "Restores an archived contact.",
+            "example": "restore-contact John",
         },
         "add-birthday": {
             "syntax": "add-birthday <name> <date>",
@@ -72,6 +82,21 @@ HELP_DICT = {
             "syntax": "search-contacts <query>",
             "desc": "Searches for contacts.",
             "example": "search-contacts John",
+        },
+        "export-contacts": {
+            "syntax": "export-contacts <filename.csv|json>",
+            "desc": "Exports contacts to a CSV or JSON file.",
+            "example": "export-contacts backup.json",
+        },
+        "import-contacts": {
+            "syntax": "import-contacts <filepath>",
+            "desc": "Imports contacts from a CSV or JSON file.",
+            "example": "import-contacts contacts_backup.csv",
+        },
+        "clear-contacts": {
+            "syntax": "clear-contacts",
+            "desc": "Clears all saved contacts.",
+            "example": "clear-contacts",
         },
     },
     "Notes": {
@@ -115,12 +140,32 @@ HELP_DICT = {
             "desc": "Sorts notes by matching tags (or total tags).",
             "example": "sort-notes-by-tags work urgent",
         },
+        "export-notes": {
+            "syntax": "export-notes <filename.json>",
+            "desc": "Exports notes to a JSON file.",
+            "example": "export-notes notes_backup.json",
+        },
+        "import-notes": {
+            "syntax": "import-notes <filepath.json>",
+            "desc": "Imports notes from a JSON file.",
+            "example": "import-notes notes_backup.json",
+        },
+        "clear-notes": {
+            "syntax": "clear-notes",
+            "desc": "Clears all saved notes.",
+            "example": "clear-notes",
+        },
     },
     "General": {
         "hello": {
             "syntax": "hello",
-            "desc": "Greeting.",
+            "desc": "Displays a greeting message.",
             "example": "hello",
+        },
+        "clear-data": {
+            "syntax": "clear-data",
+            "desc": "Clears all saved contacts and notes.",
+            "example": "clear-data",
         },
         "help": {
             "syntax": "help [command]",

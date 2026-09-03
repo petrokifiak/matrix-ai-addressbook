@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Jensen Huang",
+    "phones": ["0501112233"],
+    "emails": ["jensen@nvidia.com"],
+    "addresses": ["Santa Clara, CA, USA"],
+    "birthday": "17.02.1963"
+  },
+  {
+    "name": "Satya Nadella",
+    "phones": ["0502223344"],
+    "emails": ["satya@microsoft.com"],
+    "addresses": ["Redmond, WA, USA"],
+    "birthday": "19.08.1967"
+  },
+  {
+    "name": "Sam Altman",
+    "phones": ["0503334455"],
+    "emails": ["sam@openai.com"],
+    "addresses": ["San Francisco, CA, USA"],
+    "birthday": "22.04.1985"
+  },
+  {
+    "name": "Sundar Pichai",
+    "phones": ["0504445566"],
+    "emails": ["sundar@google.com"],
+    "addresses": ["Mountain View, CA, USA"],
+    "birthday": "10.06.1972"
+  },
+  {
+    "name": "Tim Cook",
+    "phones": ["0505556677"],
+    "emails": ["tim@apple.com"],
+    "addresses": ["Cupertino, CA, USA"],
+    "birthday": "01.11.1960"
+  },
+  {
+    "name": "Lisa Su",
+    "phones": ["0506667788"],
+    "emails": ["lisa@amd.com"],
+    "addresses": ["Santa Clara, CA, USA"],
+    "birthday": "07.11.1969"
+  },
+  {
+    "name": "Elon Musk",
+    "phones": ["0507778899"],
+    "emails": ["elon@x.com"],
+    "addresses": ["Austin, TX, USA"],
+    "birthday": "28.06.1971"
+  },
+  {
+    "name": "Mark Zuckerberg",
+    "phones": ["0508889900"],
+    "emails": ["zuck@meta.com"],
+    "addresses": ["Menlo Park, CA, USA"],
+    "birthday": "14.05.1984"
+  },
+  {
+    "name": "Pat Gelsinger",
+    "phones": ["0671112233"],
+    "emails": ["pat@intel.com"],
+    "addresses": ["Santa Clara, CA, USA"],
+    "birthday": "05.03.1961"
+  },
+  {
+    "name": "Andy Jassy",
+    "phones": ["0672223344"],
+    "emails": ["andy@amazon.com"],
+    "addresses": ["Seattle, WA, USA"],
+    "birthday": "13.01.1968"
+  }
+]

@@ -12,6 +12,8 @@ class Command(Enum):
     PHONE = "phone"
     DELETE_CONTACT = "delete-contact"
     DELETE = "delete"
+    RESTORE_CONTACT = "restore-contact"
+    ARCHIVED = "archived"
     SEARCH_CONTACTS = "search-contacts"
     FIND_CONTACTS = "find-contacts"
     ADD_EMAIL = "add-email"
@@ -28,20 +30,29 @@ class Command(Enum):
     ADD_TAG = "add-tag"
     SEARCH_BY_TAG = "search-by-tag"
     SORT_NOTES_BY_TAGS = "sort-notes-by-tags"
+    EXPORT_NOTES = "export-notes"
+    IMPORT_NOTES = "import-notes"
+    EXPORT_CONTACTS = "export-contacts"
+    IMPORT_CONTACTS = "import-contacts"
+    CLEAR_DATA = "clear-data"
+    CLEAR_CONTACTS = "clear-contacts"
+    CLEAR_NOTES = "clear-notes"
     CLOSE = "close"
     EXIT = "exit"
     HELP = "help"
 
 
-class Colors:
-    CYAN = "\033[96m"
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    YELLOW = "\033[93m"
-    RESET = "\033[0m"
 
 
 DATE_FORMAT = "%d.%m.%Y"
 PHONE_FORMAT = r"^\d{10}$"
 EMAIL_FORMAT = r"^[\w.+-]+@[\w-]+\.[\w.-]+$"
+
+
+class Colors:
+    CYAN = ''
+    GREEN = ''
+    RED = ''
+    YELLOW = ''
+    RESET = ''
 

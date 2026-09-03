@@ -126,6 +126,21 @@ class TestRecord(unittest.TestCase):
         self.assertIsNotNone(self.record.birthday)
         self.assertEqual(str(self.record.birthday), "15.08.1995")
 
+    def test_backward_compatibility_old_records(self):
+        """Simulate loading a Record from an old pickle file missing the is_archived attribute."""
+        record = Record("OldContact")
+        
+        # Simulate old pickle state by removing instance attribute
+        if "is_archived" in record.__dict__:
+            del record.__dict__["is_archived"]
+            
+        # Should not raise AttributeError because of class-level fallback
+        self.assertFalse(record.is_archived)
+        
+        # Should format string successfully
+        self.assertIn("Contact name: OldContact", str(record))
+        self.assertNotIn("(Archived)", str(record))
+
 
 class TestAddressBook(unittest.TestCase):
     def setUp(self):
@@ -143,7 +158,7 @@ class TestAddressBook(unittest.TestCase):
         rec = Record("Alice")
         self.book.add_record(rec)
         self.book.delete("Alice")
-        self.assertIsNone(self.book.find("Alice"))
+        self.assertTrue(self.book.find("Alice").is_archived)
 
     def test_delete_record_not_found_raises_keyerror(self):
         with self.assertRaises(KeyError):
